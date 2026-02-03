@@ -93,10 +93,10 @@ function ProjectCard({ project, index, isFromDatabase }: ProjectCardProps) {
       onMouseLeave={() => setIsHovered(false)}
       className="relative flex-shrink-0 w-[280px] sm:w-[340px] lg:w-[380px] group cursor-pointer"
     >
-      <div className="relative overflow-hidden rounded-2xl bg-card border border-border/50 hover:border-primary/30 aspect-[4/5] transition-all duration-300">
-        {/* Image */}
+      <div className="relative overflow-hidden rounded-2xl bg-card border border-border/50 hover:border-primary/30 aspect-[4/5] transition-all duration-150">
+        {/* Image - NO grayscale effect */}
         <div
-          className="absolute inset-0 transition-transform duration-500"
+          className="absolute inset-0 transition-transform duration-300"
           style={{ transform: isHovered ? 'scale(1.05)' : 'scale(1)' }}
         >
           {project.thumbnail_url && (
@@ -104,7 +104,7 @@ function ProjectCard({ project, index, isFromDatabase }: ProjectCardProps) {
               src={project.thumbnail_url}
               alt={project.thumbnail_alt || project.title}
               loading="lazy"
-              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+              className="w-full h-full object-cover"
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
@@ -122,7 +122,7 @@ function ProjectCard({ project, index, isFromDatabase }: ProjectCardProps) {
           <span className="text-xs uppercase tracking-widest text-primary mb-2">
             {project.category}
           </span>
-          <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+          <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-150">
             {project.title}
           </h3>
           <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
@@ -131,8 +131,8 @@ function ProjectCard({ project, index, isFromDatabase }: ProjectCardProps) {
 
           {/* Arrow */}
           <div
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-colors"
-            style={{ transform: isHovered ? 'translateX(4px)' : 'translateX(0)', transition: 'transform 0.3s' }}
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-colors duration-150"
+            style={{ transform: isHovered ? 'translateX(4px)' : 'translateX(0)', transition: 'transform 0.15s' }}
           >
             <ArrowRight size={16} className="text-primary group-hover:text-primary-foreground" />
           </div>
@@ -143,7 +143,7 @@ function ProjectCard({ project, index, isFromDatabase }: ProjectCardProps) {
 
   if (isFromDatabase) {
     return (
-      <BlurFade delay={index * 0.1}>
+      <BlurFade delay={index * 0.08}>
         <Link to={`/case-studies/${project.slug}`}>
           {card}
         </Link>
@@ -152,7 +152,7 @@ function ProjectCard({ project, index, isFromDatabase }: ProjectCardProps) {
   }
 
   return (
-    <BlurFade delay={index * 0.1}>
+    <BlurFade delay={index * 0.08}>
       {card}
     </BlurFade>
   );
@@ -213,14 +213,14 @@ export function Portfolio() {
               <div className="flex items-center gap-2 sm:gap-3">
                 <button
                   onClick={() => scrollCarousel('left')}
-                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-border bg-card/50 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-300"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-border bg-card/50 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-150"
                 >
                   <ChevronLeft size={18} />
                 </button>
                 
                 <button
                   onClick={() => scrollCarousel('right')}
-                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-border bg-card/50 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-300"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-border bg-card/50 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-150"
                 >
                   <ChevronRight size={18} />
                 </button>
