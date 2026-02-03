@@ -34,15 +34,15 @@ const blogPosts = [
 
 export function BlogSection() {
   return (
-    <section className="relative py-20 sm:py-24 md:py-32 bg-secondary/30">
-      <div className="container-custom px-6 sm:px-8">
+    <section className="relative py-24 sm:py-32 lg:py-40 bg-secondary/30">
+      <div className="container-custom px-6 sm:px-8 lg:px-12">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 lg:mb-16">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-14 lg:mb-20">
           <div>
             <BlurFade>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 rounded-full bg-primary" />
-                <span className="text-xs sm:text-sm uppercase tracking-widest text-primary font-medium">
+                <div className="w-2.5 h-2.5 rounded-full bg-primary" />
+                <span className="text-xs uppercase tracking-[0.2em] text-foreground font-medium">
                   Insights
                 </span>
               </div>
@@ -56,7 +56,7 @@ export function BlogSection() {
           <BlurFade delay={0.15}>
             <Link
               to="/case-studies"
-              className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all mt-2"
             >
               View all articles
               <ArrowRight className="w-4 h-4" />
@@ -64,13 +64,13 @@ export function BlogSection() {
           </BlurFade>
         </div>
 
-        {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {/* Blog Grid - Better bento layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {blogPosts.map((post, index) => (
             <BlurFade key={post.id} delay={0.2 + index * 0.08}>
-              <article className="group bg-card border border-border rounded-3xl overflow-hidden hover:border-primary/30 transition-all duration-150">
+              <article className="group cursor-pointer">
                 {/* Image */}
-                <div className="aspect-[16/10] overflow-hidden">
+                <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5">
                   <img
                     src={post.image}
                     alt={post.title}
@@ -79,19 +79,19 @@ export function BlogSection() {
                 </div>
                 
                 {/* Content */}
-                <div className="p-6 sm:p-8">
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-                    <span className="px-3 py-1 bg-secondary rounded-full">
+                <div>
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground mb-4">
+                    <span className="px-3 py-1.5 bg-secondary/80 rounded-full font-medium">
                       {post.category}
                     </span>
                     <span>{post.date}</span>
                   </div>
                   
-                  <h3 className="text-lg sm:text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-150 line-clamp-2">
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-150 line-clamp-2">
                     {post.title}
                   </h3>
                   
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                  <p className="text-sm sm:text-base text-muted-foreground mb-5 line-clamp-2">
                     {post.excerpt}
                   </p>
                   

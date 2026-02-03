@@ -65,20 +65,10 @@ export function Navbar() {
   return (
     <>
       <nav
-        className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          isScrolled ? 'py-3' : 'py-4 sm:py-5'
-        )}
+        className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50"
       >
-        <div className="container-custom px-4 sm:px-6 lg:px-8">
-          <div
-            className={cn(
-              'flex items-center justify-between px-4 sm:px-6 py-3 rounded-full transition-all duration-300',
-              isScrolled
-                ? 'glass-strong shadow-lg border-primary/10'
-                : 'bg-transparent'
-            )}
-          >
+        <div className="container-custom px-6 sm:px-8 lg:px-12">
+          <div className="flex items-center justify-between py-4">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 sm:gap-3">
               <img

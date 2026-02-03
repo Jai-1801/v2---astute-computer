@@ -12,15 +12,15 @@ const stats = [
 
 export function StatsBento() {
   return (
-    <section className="relative bg-secondary/30 py-20 sm:py-24 md:py-32">
-      <div className="container-custom px-6 sm:px-8">
+    <section className="relative bg-secondary/30 py-24 sm:py-32 lg:py-40">
+      <div className="container-custom px-6 sm:px-8 lg:px-12">
         {/* Header */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-12 lg:mb-16">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 mb-16 lg:mb-20">
           <div>
             <BlurFade>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 rounded-full bg-primary" />
-                <span className="text-xs sm:text-sm uppercase tracking-widest text-primary font-medium">
+                <div className="w-2.5 h-2.5 rounded-full bg-primary" />
+                <span className="text-xs uppercase tracking-[0.2em] text-foreground font-medium">
                   The Glorious Purpose
                 </span>
               </div>
@@ -31,24 +31,24 @@ export function StatsBento() {
               </h2>
             </BlurFade>
             <BlurFade delay={0.15}>
-              <p className="text-muted-foreground mt-4 text-base sm:text-lg">
+              <p className="text-muted-foreground mt-4 text-base sm:text-lg lg:text-xl">
                 Right mix of talent, infrastructure, and innovation ecosystem
               </p>
             </BlurFade>
           </div>
 
           <BlurFade delay={0.2}>
-            <p className="text-base sm:text-lg text-primary leading-relaxed lg:mt-12">
+            <p className="text-base sm:text-lg lg:text-xl text-primary leading-relaxed lg:mt-12">
               Astute Computer partners with businesses across India to define, design, build, and scale innovative digital solutions that drive growth and efficiency.
             </p>
           </BlurFade>
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
           {/* Skyscrapers Image */}
           <BlurFade delay={0.25}>
-            <div className="aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden">
+            <div className="aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden">
               <img
                 src={skyscrapersImg}
                 alt="Modern business district"
@@ -57,17 +57,20 @@ export function StatsBento() {
             </div>
           </BlurFade>
 
-          {/* AI Card */}
+          {/* AI Card - Fixed color styling */}
           <BlurFade delay={0.3}>
-            <div className="aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden relative group">
+            <div className="aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden relative group bg-card">
               <img
                 src={aiPurpleImg}
                 alt="AI Technology"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                <span className="text-xs uppercase tracking-wider text-primary/80 font-medium">DEWDROP</span>
+                <div className="inline-flex items-center gap-2 mb-2">
+                  <span className="px-2 py-0.5 text-[10px] uppercase tracking-wider font-bold bg-primary/20 text-primary rounded">New</span>
+                  <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Dewdrop AI is your AI Consultant</span>
+                </div>
                 <h3 className="text-3xl sm:text-4xl font-bold text-foreground">AI</h3>
                 <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
                   With AI-powered automation, operational friction reduces significantly, costs drop by nearly 40%, and time-to-market accelerates dramatically.
@@ -77,11 +80,11 @@ export function StatsBento() {
           </BlurFade>
 
           {/* Stats Column */}
-          <div className="space-y-4 lg:space-y-6">
+          <div className="space-y-5 lg:space-y-6">
             {/* Stat Card 1 */}
             <BlurFade delay={0.35}>
-              <div className="bg-card border border-border rounded-3xl p-6 sm:p-8">
-                <p className="text-sm text-muted-foreground mb-2">
+              <div className="bg-card border border-border/50 rounded-2xl p-6 sm:p-8">
+                <p className="text-sm text-muted-foreground mb-3">
                   Balanced scorecard approach to track and achieve critical OKRs and KPIs
                 </p>
                 <div className="flex items-baseline gap-1">
@@ -99,7 +102,7 @@ export function StatsBento() {
 
             {/* India Gate Image */}
             <BlurFade delay={0.4}>
-              <div className="aspect-[4/3] rounded-3xl overflow-hidden">
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden">
                 <img
                   src={indiaGateImg}
                   alt="India Gate"
@@ -111,7 +114,7 @@ export function StatsBento() {
 
           {/* Time Reduction Card */}
           <BlurFade delay={0.45}>
-            <div className="bg-card border border-border rounded-3xl p-6 sm:p-8">
+            <div className="bg-card border border-border/50 rounded-2xl p-6 sm:p-8">
               <div className="flex items-baseline gap-1 mb-4">
                 <Counter 
                   value={40} 
@@ -131,7 +134,7 @@ export function StatsBento() {
           {/* Stats Cards Row */}
           {stats.slice(0, 2).map((stat, index) => (
             <BlurFade key={stat.label} delay={0.5 + index * 0.05}>
-              <div className="bg-primary rounded-3xl p-6 sm:p-8 text-primary-foreground relative overflow-hidden">
+              <div className="bg-primary rounded-2xl p-6 sm:p-8 text-primary-foreground relative overflow-hidden">
                 <div className="absolute right-0 top-0 w-2 h-full bg-gradient-to-b from-primary-foreground/20 to-transparent" />
                 <div className="flex items-baseline gap-1 mb-2">
                   <Counter 
