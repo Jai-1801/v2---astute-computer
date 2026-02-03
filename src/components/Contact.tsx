@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useInView, AnimatePresence, motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { BlurFade } from '@/components/ui/BlurFade';
 import {
   Form,
   FormControl,
@@ -118,7 +119,6 @@ export function Contact() {
         });
 
       if (error) {
-        // Check if it's a duplicate email error
         if (error.code === '23505') {
           toast.info('You\'re already subscribed!');
           setIsNewsletterSubmitted(true);
@@ -154,105 +154,218 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="snap-section section-padding relative overflow-hidden">
-      {/* Background */}
+    <section id="contact" className="relative overflow-hidden py-20 sm:py-24 md:py-32">
       <div className="absolute inset-0 grid-pattern opacity-10" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[150px]" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px]" />
 
-      <div ref={ref} className="container-custom relative z-10">
+      <div ref={ref} className="container-custom relative z-10 px-6 sm:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6 }}
-            className="inline-block text-sm uppercase tracking-widest text-primary mb-4"
-          >
-            Get In Touch
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6"
-          >
-            Let's Build Something
-            <br />
-            <span className="text-gradient-purple">Amazing Together</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
-          >
-            Ready to transform your business? Coffee's on us. Let's discuss how we can help you achieve your goals.
-          </motion.p>
+        <div className="text-center mb-12 sm:mb-16">
+          <BlurFade>
+            <span className="inline-block text-xs sm:text-sm uppercase tracking-widest text-primary mb-3 sm:mb-4">
+              Get In Touch
+            </span>
+          </BlurFade>
+          <BlurFade delay={0.1}>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
+              Let's Build Something
+              <br />
+              <span className="text-gradient-purple">Amazing Together</span>
+            </h2>
+          </BlurFade>
+          <BlurFade delay={0.2}>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+              Ready to transform your business? Coffee's on us. Let's discuss how we can help you achieve your goals.
+            </p>
+          </BlurFade>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
           {/* Contact Methods */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-8"
-          >
-            {/* Quick Contact Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <motion.button
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={openWhatsApp}
-                className="flex items-center gap-3 px-6 py-4 bg-card border border-border rounded-xl hover:border-primary/30 hover:bg-primary/5 transition-all group"
-              >
-                <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
-                  <MessageSquare className="w-5 h-5 text-green-500" />
-                </div>
-                <div className="text-left">
-                  <span className="block text-sm text-muted-foreground">WhatsApp</span>
-                  <span className="font-medium text-foreground">{WHATSAPP_NUMBER}</span>
-                </div>
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={openEmail}
-                className="flex items-center gap-3 px-6 py-4 bg-card border border-border rounded-xl hover:border-primary/30 hover:bg-primary/5 transition-all group"
-              >
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                  <Mail className="w-5 h-5 text-primary" />
-                </div>
-                <div className="text-left">
-                  <span className="block text-sm text-muted-foreground">Email</span>
-                  <span className="font-medium text-foreground text-sm">{EMAIL_ADDRESS}</span>
-                </div>
-              </motion.button>
-            </div>
-
-            {/* Newsletter */}
-            <div className="pt-8 border-t border-border/50">
-              <h3 className="text-xl font-semibold text-foreground mb-4">
-                Stay Updated
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                Subscribe to our newsletter for insights on digital transformation and technology trends.
-              </p>
-              <Form {...newsletterForm}>
-                <form
-                  onSubmit={newsletterForm.handleSubmit(onNewsletterSubmit)}
-                  className="flex gap-3"
+          <BlurFade delay={0.2}>
+            <div className="space-y-6 sm:space-y-8">
+              {/* Quick Contact Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <button
+                  onClick={openWhatsApp}
+                  className="flex items-center gap-3 px-5 sm:px-6 py-4 bg-card border border-border rounded-xl hover:border-primary/30 hover:bg-primary/5 transition-all group"
                 >
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+                    <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
+                  </div>
+                  <div className="text-left">
+                    <span className="block text-xs sm:text-sm text-muted-foreground">WhatsApp</span>
+                    <span className="font-medium text-foreground text-sm sm:text-base">{WHATSAPP_NUMBER}</span>
+                  </div>
+                </button>
+
+                <button
+                  onClick={openEmail}
+                  className="flex items-center gap-3 px-5 sm:px-6 py-4 bg-card border border-border rounded-xl hover:border-primary/30 hover:bg-primary/5 transition-all group"
+                >
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                  </div>
+                  <div className="text-left">
+                    <span className="block text-xs sm:text-sm text-muted-foreground">Email</span>
+                    <span className="font-medium text-foreground text-xs sm:text-sm">{EMAIL_ADDRESS}</span>
+                  </div>
+                </button>
+              </div>
+
+              {/* Newsletter */}
+              <div className="pt-6 sm:pt-8 border-t border-border/50">
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-3 sm:mb-4">
+                  Stay Updated
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground mb-4">
+                  Subscribe to our newsletter for insights on digital transformation and technology trends.
+                </p>
+                <Form {...newsletterForm}>
+                  <form
+                    onSubmit={newsletterForm.handleSubmit(onNewsletterSubmit)}
+                    className="flex gap-2 sm:gap-3"
+                  >
+                    <FormField
+                      control={newsletterForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormControl>
+                            <Input
+                              placeholder="Enter your email"
+                              className="bg-card border-border h-11 sm:h-12 rounded-full px-4 sm:px-5 focus:border-primary focus:ring-primary text-sm"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <button
+                      type="submit"
+                      disabled={isNewsletterSubmitting || isNewsletterSubmitted}
+                      className="px-5 sm:px-6 h-11 sm:h-12 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-all disabled:opacity-50 flex items-center gap-2 button-glow"
+                    >
+                      <AnimatePresence mode="wait">
+                        {isNewsletterSubmitted ? (
+                          <motion.span key="success" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
+                            <Check size={16} />
+                          </motion.span>
+                        ) : isNewsletterSubmitting ? (
+                          <Loader2 size={16} className="animate-spin" />
+                        ) : (
+                          <ArrowRight size={16} />
+                        )}
+                      </AnimatePresence>
+                    </button>
+                  </form>
+                </Form>
+              </div>
+            </div>
+          </BlurFade>
+
+          {/* Contact Form */}
+          <BlurFade delay={0.3}>
+            <div className="bg-card border border-border rounded-2xl p-6 sm:p-8 hover:border-primary/20 transition-colors">
+              <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-5 sm:mb-6">
+                Send us a message
+              </h3>
+
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
+                  <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-foreground text-sm">Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Your name"
+                              className="bg-background border-border rounded-lg focus:border-primary focus:ring-primary text-sm"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-foreground text-sm">Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="your@email.com"
+                              type="email"
+                              className="bg-background border-border rounded-lg focus:border-primary focus:ring-primary text-sm"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-foreground text-sm">Phone (Optional)</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Your phone number"
+                              className="bg-background border-border rounded-lg focus:border-primary focus:ring-primary text-sm"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="service"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-foreground text-sm">Service Interest</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="bg-background border-border rounded-lg text-sm">
+                                <SelectValue placeholder="Select a service" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {services.map((service) => (
+                                <SelectItem key={service} value={service}>
+                                  {service}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
                   <FormField
-                    control={newsletterForm.control}
-                    name="email"
+                    control={form.control}
+                    name="message"
                     render={({ field }) => (
-                      <FormItem className="flex-1">
+                      <FormItem>
+                        <FormLabel className="text-foreground text-sm">Message</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="Enter your email"
-                            className="bg-card border-border h-12 rounded-full px-5 focus:border-primary focus:ring-primary"
+                          <Textarea
+                            placeholder="Tell us about your project..."
+                            className="bg-background border-border min-h-[100px] sm:min-h-[120px] resize-none rounded-lg focus:border-primary focus:ring-primary text-sm"
                             {...field}
                           />
                         </FormControl>
@@ -260,188 +373,35 @@ export function Contact() {
                       </FormItem>
                     )}
                   />
-                  <motion.button
+
+                  <button
                     type="submit"
-                    disabled={isNewsletterSubmitting || isNewsletterSubmitted}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-6 h-12 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-all disabled:opacity-50 flex items-center gap-2 button-glow"
+                    disabled={isSubmitting || isSubmitted}
+                    className="w-full h-11 sm:h-12 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2 button-glow text-sm sm:text-base"
                   >
                     <AnimatePresence mode="wait">
-                      {isNewsletterSubmitted ? (
-                        <motion.span
-                          key="success"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          exit={{ scale: 0 }}
-                        >
-                          <Check size={18} />
-                        </motion.span>
-                      ) : isNewsletterSubmitting ? (
-                        <Loader2 size={18} className="animate-spin" />
+                      {isSubmitted ? (
+                        <motion.div key="success" initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-2">
+                          <Check size={16} />
+                          <span>Message Sent!</span>
+                        </motion.div>
+                      ) : isSubmitting ? (
+                        <motion.div key="loading" className="flex items-center gap-2">
+                          <Loader2 size={16} className="animate-spin" />
+                          <span>Sending...</span>
+                        </motion.div>
                       ) : (
-                        <ArrowRight size={18} />
+                        <motion.div key="default" className="flex items-center gap-2">
+                          <Send size={16} />
+                          <span>Send Message</span>
+                        </motion.div>
                       )}
                     </AnimatePresence>
-                  </motion.button>
+                  </button>
                 </form>
               </Form>
             </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-card border border-border rounded-2xl p-8 hover:border-primary/20 transition-colors"
-          >
-            <h3 className="text-xl font-semibold text-foreground mb-6">
-              Send us a message
-            </h3>
-
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-foreground">Name</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Your name"
-                            className="bg-background border-border rounded-lg focus:border-primary focus:ring-primary"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-foreground">Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="your@email.com"
-                            type="email"
-                            className="bg-background border-border rounded-lg focus:border-primary focus:ring-primary"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-foreground">Phone (Optional)</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Your phone number"
-                            className="bg-background border-border rounded-lg focus:border-primary focus:ring-primary"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="service"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-foreground">Service Interest</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="bg-background border-border rounded-lg">
-                              <SelectValue placeholder="Select a service" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {services.map((service) => (
-                              <SelectItem key={service} value={service}>
-                                {service}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-foreground">Message</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Tell us about your project..."
-                          className="bg-background border-border min-h-[120px] resize-none rounded-lg focus:border-primary focus:ring-primary"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting || isSubmitted}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full h-12 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2 button-glow"
-                >
-                  <AnimatePresence mode="wait">
-                    {isSubmitted ? (
-                      <motion.div
-                        key="success"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="flex items-center gap-2"
-                      >
-                        <Check size={18} />
-                        <span>Message Sent!</span>
-                      </motion.div>
-                    ) : isSubmitting ? (
-                      <motion.div
-                        key="loading"
-                        className="flex items-center gap-2"
-                      >
-                        <Loader2 size={18} className="animate-spin" />
-                        <span>Sending...</span>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="default"
-                        className="flex items-center gap-2"
-                      >
-                        <Send size={18} />
-                        <span>Send Message</span>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.button>
-              </form>
-            </Form>
-          </motion.div>
+          </BlurFade>
         </div>
       </div>
     </section>
