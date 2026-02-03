@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { 
   Stethoscope, 
   Scale, 
@@ -19,7 +20,6 @@ const sectors = [
     description: 'Outdated patient management, compliance burdens, and fragmented data across departments.',
     solution: 'AI-powered document digitization and unified patient portals',
     size: 'large',
-    parallaxIntensity: 30,
   },
   {
     id: 'legal',
@@ -29,7 +29,6 @@ const sectors = [
     description: 'Hours wasted searching through case files, security vulnerabilities, and version control nightmares.',
     solution: 'Intelligent document archives with instant semantic search',
     size: 'medium',
-    parallaxIntensity: -20,
   },
   {
     id: 'manufacturing',
@@ -39,7 +38,6 @@ const sectors = [
     description: 'Excel-based inventory, disconnected supply chains, and no real-time visibility.',
     solution: 'End-to-end operations digitalization with live dashboards',
     size: 'medium',
-    parallaxIntensity: 25,
   },
   {
     id: 'finance',
@@ -49,7 +47,6 @@ const sectors = [
     description: 'Spreadsheet hell, compliance risks, and days-long report generation cycles.',
     solution: 'Automated compliance workflows and real-time analytics',
     size: 'medium',
-    parallaxIntensity: -15,
   },
   {
     id: 'retail',
@@ -59,7 +56,6 @@ const sectors = [
     description: 'Stock mismatches, poor omnichannel experiences, and lost sales opportunities.',
     solution: 'Unified commerce platforms with predictive inventory',
     size: 'medium',
-    parallaxIntensity: 20,
   },
   {
     id: 'education',
@@ -69,45 +65,22 @@ const sectors = [
     description: 'Outdated LMS systems, paper-heavy admissions, and poor student engagement.',
     solution: 'Modern learning platforms with automated administration',
     size: 'large',
-    parallaxIntensity: -25,
   },
 ];
 
 function SectorCard({ 
   sector, 
   index,
-  scrollProgress,
   onNavigate,
 }: { 
   sector: typeof sectors[0]; 
   index: number;
-  scrollProgress: any;
   onNavigate: (slug: string) => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
   
-  // Individual parallax transformation based on scroll progress
-  const y = useTransform(
-    scrollProgress, 
-    [0, 1], 
-    [sector.parallaxIntensity, -sector.parallaxIntensity]
-  );
-  
-  const scale = useTransform(
-    scrollProgress,
-    [0, 0.5, 1],
-    [0.95, 1, 0.95]
-  );
-  
-  const rotateX = useTransform(
-    scrollProgress,
-    [0, 0.5, 1],
-    [index % 2 === 0 ? 2 : -2, 0, index % 2 === 0 ? -2 : 2]
-  );
-  
   return (
     <motion.div
-      style={{ y, scale, rotateX }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ 
@@ -128,32 +101,28 @@ function SectorCard({
           y: isHovered ? -8 : 0,
         }}
         transition={{ duration: 0.3 }}
-        className="h-full p-6 sm:p-8 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 overflow-hidden relative"
+        className="h-full p-6 sm:p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 overflow-hidden relative transition-all duration-300"
       >
         {/* Glow effect on hover */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-foreground/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         />
         
-        {/* Floating animation for icon */}
-        <motion.div
-          animate={{ y: [0, -4, 0] }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-          className="relative z-10"
-        >
+        {/* Icon */}
+        <div className="relative z-10">
           <motion.div
             whileHover={{ scale: 1.1, rotate: 5 }}
-            className="w-12 h-12 rounded-xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mb-4 group-hover:bg-foreground/10 group-hover:border-foreground/20 transition-all duration-300"
+            className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all duration-300"
           >
-            <sector.icon className="w-5 h-5 text-foreground" />
+            <sector.icon className="w-5 h-5 text-primary" />
           </motion.div>
-        </motion.div>
+        </div>
         
         <div className="relative z-10">
-          <h3 className="text-xl font-semibold text-foreground mb-2">
+          <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
             {sector.title}
           </h3>
-          <p className="text-sm font-medium text-foreground/70 mb-3">
+          <p className="text-sm font-medium text-primary/70 mb-3">
             {sector.problem}
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed mb-4">
@@ -177,19 +146,13 @@ function SectorCard({
           </motion.div>
         </div>
 
-        {/* Animated corner accent */}
-        <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden">
-          <motion.div
-            className="absolute top-0 right-0 w-px h-12 bg-gradient-to-b from-foreground/20 to-transparent"
-            animate={{ opacity: [0.3, 0.6, 0.3] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-          <motion.div
-            className="absolute top-0 right-0 h-px w-12 bg-gradient-to-l from-foreground/20 to-transparent"
-            animate={{ opacity: [0.3, 0.6, 0.3] }}
-            transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-          />
-        </div>
+        {/* Arrow indicator */}
+        <motion.div
+          animate={{ x: isHovered ? 4 : 0, opacity: isHovered ? 1 : 0 }}
+          className="absolute bottom-6 right-6"
+        >
+          <ArrowRight className="h-5 w-5 text-primary" />
+        </motion.div>
       </motion.div>
     </motion.div>
   );
@@ -199,12 +162,6 @@ export function SectorProblems() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const navigate = useNavigate();
-  
-  // Scroll progress for parallax effect
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
 
   const handleNavigate = (slug: string) => {
     navigate(`/industries/${slug}`);
@@ -212,11 +169,10 @@ export function SectorProblems() {
 
   return (
     <section id="sectors" className="snap-section section-padding relative overflow-hidden">
-      {/* Animated Grid Background */}
+      {/* Background */}
       <div className="absolute inset-0 grid-pattern opacity-10" />
-      
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
+      {/* Purple ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[200px]" />
 
       <div ref={ref} className="container-custom relative z-10">
         {/* Section Header */}
@@ -225,7 +181,7 @@ export function SectorProblems() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6 }}
-            className="inline-block text-sm uppercase tracking-widest text-muted-foreground mb-4"
+            className="inline-block text-sm uppercase tracking-widest text-primary mb-4"
           >
             Industries We Serve
           </motion.span>
@@ -237,7 +193,7 @@ export function SectorProblems() {
           >
             Solving Industry
             <br />
-            <span className="text-muted-foreground">Challenges</span>
+            <span className="text-gradient-purple">Challenges</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -249,14 +205,13 @@ export function SectorProblems() {
           </motion.p>
         </div>
 
-        {/* Bento Grid with Parallax */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 perspective-1000">
+        {/* Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {sectors.map((sector, index) => (
             <SectorCard 
               key={sector.id} 
               sector={sector} 
-              index={index} 
-              scrollProgress={scrollYProgress}
+              index={index}
               onNavigate={handleNavigate}
             />
           ))}
@@ -277,7 +232,7 @@ export function SectorProblems() {
             href="#contact"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-2 text-foreground font-medium link-underline"
+            className="inline-flex items-center gap-2 text-primary font-medium link-underline"
           >
             Let's discuss your challenges
             <motion.span
