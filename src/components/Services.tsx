@@ -1,9 +1,15 @@
 import { useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useInView } from 'framer-motion';
 import { ArrowRight, ChevronDown, Palette, Cog, FileText, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { BlurFade } from '@/components/ui/BlurFade';
+
+// Import service background images
+import digitalBrandingBg from '@/assets/services/digital-branding-bg.jpg';
+import operationsBg from '@/assets/services/operations-bg.jpg';
+import aiDocumentsBg from '@/assets/services/ai-documents-bg.jpg';
+import customSoftwareBg from '@/assets/services/custom-software-bg.jpg';
 
 const services = [
   {
@@ -12,6 +18,7 @@ const services = [
     slug: 'digital-transformation',
     description: 'Brand strategy, logo design, and complete visual identity systems that make your business unforgettable.',
     features: ['Brand Strategy', 'Logo Design', 'Visual Identity', 'Brand Guidelines'],
+    bgImage: digitalBrandingBg,
   },
   {
     icon: Cog,
@@ -19,6 +26,7 @@ const services = [
     slug: 'ai-automation',
     description: 'Transform your business processes with cutting-edge digitization and automation solutions.',
     features: ['Process Automation', 'Workflow Design', 'System Integration', 'Digital Transformation'],
+    bgImage: operationsBg,
   },
   {
     icon: FileText,
@@ -26,6 +34,7 @@ const services = [
     slug: 'document-digitization',
     description: 'AI-powered scanning, OCR, and intelligent archival systems that bring order to your documents.',
     features: ['AI-Powered OCR', 'Smart Indexing', 'Secure Storage', 'Quick Retrieval'],
+    bgImage: aiDocumentsBg,
   },
   {
     icon: Code,
@@ -33,51 +42,83 @@ const services = [
     slug: 'custom-software-development',
     description: 'Full-stack web and mobile applications tailored to your unique business requirements.',
     features: ['Web Applications', 'Mobile Apps', 'API Development', 'Cloud Solutions'],
+    bgImage: customSoftwareBg,
   },
 ];
 
 function ServiceItem({
   service,
   index,
-  isInView,
 }: {
   service: (typeof services)[0];
   index: number;
-  isInView: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <BlurFade delay={index * 0.1}>
+    <BlurFade delay={index * 0.08}>
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-        <div className="group border-b border-border/50 last:border-b-0">
+        <div 
+          className="group border-b border-border/50 last:border-b-0 relative overflow-hidden rounded-xl"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {/* Background image - instant transition on hover */}
+          <div 
+            className="absolute inset-0 transition-opacity duration-100"
+            style={{ opacity: isHovered ? 1 : 0 }}
+          >
+            <img 
+              src={service.bgImage} 
+              alt="" 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-background/80 dark:bg-background/85" />
+          </div>
+
           <CollapsibleTrigger asChild>
-            <button className="w-full py-6 sm:py-8 flex items-center justify-between text-left transition-colors hover:bg-primary/5 px-4 -mx-4 rounded-lg">
+            <button className="relative z-10 w-full py-6 sm:py-8 flex items-center justify-between text-left px-4">
               <div className="flex items-center gap-4 sm:gap-6">
-                <span className="text-3xl sm:text-4xl font-bold text-primary/30 group-hover:text-primary/50 transition-colors">
+                <span 
+                  className="text-3xl sm:text-4xl font-bold transition-colors duration-100"
+                  style={{ color: isHovered ? 'hsl(var(--primary) / 0.6)' : 'hsl(var(--primary) / 0.3)' }}
+                >
                   0{index + 1}
                 </span>
                 <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <div 
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl border border-primary/20 flex items-center justify-center transition-colors duration-100"
+                    style={{ backgroundColor: isHovered ? 'hsl(var(--primary) / 0.2)' : 'hsl(var(--primary) / 0.1)' }}
+                  >
                     <service.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                   </div>
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground group-hover:text-primary transition-colors">
+                  <h3 
+                    className="text-xl sm:text-2xl md:text-3xl font-semibold transition-colors duration-100"
+                    style={{ color: isHovered ? 'hsl(var(--primary))' : 'hsl(var(--foreground))' }}
+                  >
                     {service.title}
                   </h3>
                 </div>
               </div>
-              <motion.div
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
-                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-border flex items-center justify-center group-hover:border-primary/50 group-hover:bg-primary/10 transition-colors flex-shrink-0"
+              <div
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center flex-shrink-0 transition-all duration-100"
+                style={{ 
+                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  borderColor: isHovered ? 'hsl(var(--primary) / 0.5)' : 'hsl(var(--border))',
+                  backgroundColor: isHovered ? 'hsl(var(--primary) / 0.1)' : 'transparent'
+                }}
               >
-                <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground group-hover:text-primary" />
-              </motion.div>
+                <ChevronDown 
+                  className="w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-100"
+                  style={{ color: isHovered ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground))' }}
+                />
+              </div>
             </button>
           </CollapsibleTrigger>
           
           <CollapsibleContent>
-            <div className="pb-6 sm:pb-8 pl-16 sm:pl-24">
+            <div className="relative z-10 pb-6 sm:pb-8 pl-16 sm:pl-24 pr-4">
               <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed text-sm sm:text-base">
                 {service.description}
               </p>
@@ -146,7 +187,6 @@ export function Services() {
               key={service.title}
               service={service}
               index={index}
-              isInView={isInView}
             />
           ))}
         </div>

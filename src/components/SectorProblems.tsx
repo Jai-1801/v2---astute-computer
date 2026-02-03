@@ -4,6 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Stethoscope, Scale, Factory, TrendingUp, ShoppingCart, GraduationCap } from 'lucide-react';
 import { BlurFade } from '@/components/ui/BlurFade';
 
+// Import industry background images
+import healthcareBg from '@/assets/industries/healthcare-bg.jpg';
+import legalBg from '@/assets/industries/legal-bg.jpg';
+import manufacturingBg from '@/assets/industries/manufacturing-bg.jpg';
+import financeBg from '@/assets/industries/finance-bg.jpg';
+import retailBg from '@/assets/industries/retail-bg.jpg';
+import educationBg from '@/assets/industries/education-bg.jpg';
+
 const sectors = [
   {
     id: 'healthcare',
@@ -12,6 +20,7 @@ const sectors = [
     problem: 'Legacy systems & paper records',
     description: 'Outdated patient management, compliance burdens, and fragmented data across departments.',
     solution: 'AI-powered document digitization and unified patient portals',
+    bgImage: healthcareBg,
     size: 'large',
   },
   {
@@ -21,6 +30,7 @@ const sectors = [
     problem: 'Document chaos & slow retrieval',
     description: 'Hours wasted searching through case files, security vulnerabilities, and version control nightmares.',
     solution: 'Intelligent document archives with instant semantic search',
+    bgImage: legalBg,
     size: 'medium',
   },
   {
@@ -30,6 +40,7 @@ const sectors = [
     problem: 'Outdated processes & manual tracking',
     description: 'Excel-based inventory, disconnected supply chains, and no real-time visibility.',
     solution: 'End-to-end operations digitalization with live dashboards',
+    bgImage: manufacturingBg,
     size: 'medium',
   },
   {
@@ -39,6 +50,7 @@ const sectors = [
     problem: 'Data silos & reporting delays',
     description: 'Spreadsheet hell, compliance risks, and days-long report generation cycles.',
     solution: 'Automated compliance workflows and real-time analytics',
+    bgImage: financeBg,
     size: 'medium',
   },
   {
@@ -48,6 +60,7 @@ const sectors = [
     problem: 'Inventory chaos & channel disconnect',
     description: 'Stock mismatches, poor omnichannel experiences, and lost sales opportunities.',
     solution: 'Unified commerce platforms with predictive inventory',
+    bgImage: retailBg,
     size: 'medium',
   },
   {
@@ -57,6 +70,7 @@ const sectors = [
     problem: 'Administrative burden & legacy platforms',
     description: 'Outdated LMS systems, paper-heavy admissions, and poor student engagement.',
     solution: 'Modern learning platforms with automated administration',
+    bgImage: educationBg,
     size: 'large',
   },
 ];
@@ -73,7 +87,7 @@ function SectorCard({
   const [isHovered, setIsHovered] = useState(false);
   
   return (
-    <BlurFade delay={index * 0.1}>
+    <BlurFade delay={index * 0.08}>
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -83,24 +97,55 @@ function SectorCard({
         }`}
       >
         <div
-          className="h-full p-5 sm:p-6 md:p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 overflow-hidden relative transition-all duration-300"
-          style={{ transform: isHovered ? 'translateY(-4px)' : 'translateY(0)' }}
+          className="h-full min-h-[280px] sm:min-h-[320px] rounded-2xl overflow-hidden relative"
+          style={{ 
+            transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+            transition: 'transform 0.15s ease-out'
+          }}
         >
-          {/* Glow effect on hover */}
-          <div
-            className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent transition-opacity duration-300"
-            style={{ opacity: isHovered ? 1 : 0 }}
-          />
-          
-          {/* Icon */}
-          <div className="relative z-10">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all duration-300">
-              <sector.icon className="w-5 h-5 text-primary" />
-            </div>
+          {/* Background image - always visible, no greyscale */}
+          <div className="absolute inset-0">
+            <img 
+              src={sector.bgImage} 
+              alt="" 
+              className="w-full h-full object-cover"
+              style={{ 
+                transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                transition: 'transform 0.3s ease-out'
+              }}
+            />
+            {/* Overlay gradient */}
+            <div 
+              className="absolute inset-0"
+              style={{ 
+                background: isHovered 
+                  ? 'linear-gradient(to top, hsl(var(--background) / 0.95) 0%, hsl(var(--background) / 0.7) 50%, transparent 100%)'
+                  : 'linear-gradient(to top, hsl(var(--background) / 0.98) 0%, hsl(var(--background) / 0.85) 50%, hsl(var(--background) / 0.6) 100%)',
+                transition: 'background 0.15s ease-out'
+              }}
+            />
           </div>
           
-          <div className="relative z-10">
-            <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+          {/* Content */}
+          <div className="relative z-10 h-full p-5 sm:p-6 md:p-8 flex flex-col justify-end">
+            {/* Icon */}
+            <div 
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl border border-primary/20 flex items-center justify-center mb-4"
+              style={{
+                backgroundColor: isHovered ? 'hsl(var(--primary) / 0.2)' : 'hsl(var(--primary) / 0.1)',
+                transition: 'background-color 0.15s ease-out'
+              }}
+            >
+              <sector.icon className="w-5 h-5 text-primary" />
+            </div>
+            
+            <h3 
+              className="text-lg sm:text-xl font-semibold mb-2"
+              style={{
+                color: isHovered ? 'hsl(var(--primary))' : 'hsl(var(--foreground))',
+                transition: 'color 0.15s ease-out'
+              }}
+            >
               {sector.title}
             </h3>
             <p className="text-xs sm:text-sm font-medium text-primary/70 mb-2 sm:mb-3">
@@ -112,10 +157,11 @@ function SectorCard({
             
             {/* Solution reveal on hover */}
             <div
-              className="overflow-hidden transition-all duration-300"
               style={{ 
                 opacity: isHovered ? 1 : 0, 
-                maxHeight: isHovered ? '100px' : '0px' 
+                maxHeight: isHovered ? '100px' : '0px',
+                overflow: 'hidden',
+                transition: 'opacity 0.15s ease-out, max-height 0.15s ease-out'
               }}
             >
               <div className="pt-4 border-t border-border/30">
@@ -123,17 +169,18 @@ function SectorCard({
                 <p className="text-xs sm:text-sm text-foreground/80 mt-1">{sector.solution}</p>
               </div>
             </div>
-          </div>
 
-          {/* Arrow indicator */}
-          <div
-            className="absolute bottom-5 sm:bottom-6 right-5 sm:right-6 transition-all duration-300"
-            style={{ 
-              transform: isHovered ? 'translateX(4px)' : 'translateX(0)', 
-              opacity: isHovered ? 1 : 0 
-            }}
-          >
-            <ArrowRight className="h-5 w-5 text-primary" />
+            {/* Arrow indicator */}
+            <div
+              className="absolute bottom-5 sm:bottom-6 right-5 sm:right-6 w-9 h-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center"
+              style={{ 
+                transform: isHovered ? 'translateX(0)' : 'translateX(4px)', 
+                opacity: isHovered ? 1 : 0.6,
+                transition: 'transform 0.15s ease-out, opacity 0.15s ease-out'
+              }}
+            >
+              <ArrowRight className="h-4 w-4 text-primary" />
+            </div>
           </div>
         </div>
       </div>
