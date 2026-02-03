@@ -4,10 +4,13 @@ import { AnimatePresence } from 'framer-motion';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
-import { Services } from '@/components/Services';
+import { CoreMission } from '@/components/CoreMission';
+import { WhyPartner } from '@/components/WhyPartner';
+import { StatsBento } from '@/components/StatsBento';
+import { HowWeWork } from '@/components/HowWeWork';
+import { OfferingsSection } from '@/components/OfferingsSection';
 import { Portfolio } from '@/components/Portfolio';
-import { About } from '@/components/About';
-import { SectorProblems } from '@/components/SectorProblems';
+import { BlogSection } from '@/components/BlogSection';
 import { Contact } from '@/components/Contact';
 import { Footer } from '@/components/Footer';
 import { SEOHead } from '@/components/SEOHead';
@@ -43,10 +46,13 @@ const Index = () => {
         <Navbar />
         <main>
           <Hero />
-          <Services />
+          <CoreMission />
+          <WhyPartner />
+          <StatsBento />
+          <HowWeWork />
+          <OfferingsSection />
           <Portfolio />
-          <About />
-          <SectorProblems />
+          <BlogSection />
           <Contact />
         </main>
         <Footer />
