@@ -3,7 +3,7 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Send, MessageSquare, Mail, Check, Loader2 } from 'lucide-react';
+import { Send, MessageSquare, Mail, Check, Loader2, ArrowRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
@@ -156,8 +156,8 @@ export function Contact() {
   return (
     <section id="contact" className="snap-section section-padding relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 grid-pattern opacity-20" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-foreground/5 to-transparent rounded-full blur-3xl" />
+      <div className="absolute inset-0 grid-pattern opacity-10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[150px]" />
 
       <div ref={ref} className="container-custom relative z-10">
         {/* Section Header */}
@@ -166,7 +166,7 @@ export function Contact() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6 }}
-            className="inline-block text-sm uppercase tracking-widest text-muted-foreground mb-4"
+            className="inline-block text-sm uppercase tracking-widest text-primary mb-4"
           >
             Get In Touch
           </motion.span>
@@ -178,8 +178,16 @@ export function Contact() {
           >
             Let's Build Something
             <br />
-            <span className="text-muted-foreground">Amazing Together</span>
+            <span className="text-gradient-purple">Amazing Together</span>
           </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+          >
+            Ready to transform your business? Coffee's on us. Let's discuss how we can help you achieve your goals.
+          </motion.p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
@@ -190,19 +198,15 @@ export function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="space-y-8"
           >
-            <p className="text-lg text-muted-foreground">
-              Ready to transform your business? Reach out and let's discuss how we can help you achieve your goals.
-            </p>
-
             {/* Quick Contact Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <motion.button
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={openWhatsApp}
-                className="flex items-center gap-3 px-6 py-4 bg-card border border-border rounded-xl hover:border-foreground/30 transition-colors group"
+                className="flex items-center gap-3 px-6 py-4 bg-card border border-border rounded-xl hover:border-primary/30 hover:bg-primary/5 transition-all group"
               >
-                <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
                   <MessageSquare className="w-5 h-5 text-green-500" />
                 </div>
                 <div className="text-left">
@@ -212,13 +216,13 @@ export function Contact() {
               </motion.button>
 
               <motion.button
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={openEmail}
-                className="flex items-center gap-3 px-6 py-4 bg-card border border-border rounded-xl hover:border-foreground/30 transition-colors group"
+                className="flex items-center gap-3 px-6 py-4 bg-card border border-border rounded-xl hover:border-primary/30 hover:bg-primary/5 transition-all group"
               >
-                <div className="w-10 h-10 rounded-lg bg-foreground/10 flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-foreground" />
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <Mail className="w-5 h-5 text-primary" />
                 </div>
                 <div className="text-left">
                   <span className="block text-sm text-muted-foreground">Email</span>
@@ -248,7 +252,7 @@ export function Contact() {
                         <FormControl>
                           <Input
                             placeholder="Enter your email"
-                            className="bg-card border-border h-12"
+                            className="bg-card border-border h-12 rounded-full px-5 focus:border-primary focus:ring-primary"
                             {...field}
                           />
                         </FormControl>
@@ -261,7 +265,7 @@ export function Contact() {
                     disabled={isNewsletterSubmitting || isNewsletterSubmitted}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-6 h-12 bg-foreground text-background rounded-md font-medium hover:bg-foreground/90 transition-colors disabled:opacity-50 flex items-center gap-2"
+                    className="px-6 h-12 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-all disabled:opacity-50 flex items-center gap-2 button-glow"
                   >
                     <AnimatePresence mode="wait">
                       {isNewsletterSubmitted ? (
@@ -276,7 +280,7 @@ export function Contact() {
                       ) : isNewsletterSubmitting ? (
                         <Loader2 size={18} className="animate-spin" />
                       ) : (
-                        <span>Subscribe</span>
+                        <ArrowRight size={18} />
                       )}
                     </AnimatePresence>
                   </motion.button>
@@ -290,7 +294,7 @@ export function Contact() {
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-card border border-border rounded-2xl p-8"
+            className="bg-card border border-border rounded-2xl p-8 hover:border-primary/20 transition-colors"
           >
             <h3 className="text-xl font-semibold text-foreground mb-6">
               Send us a message
@@ -308,7 +312,7 @@ export function Contact() {
                         <FormControl>
                           <Input
                             placeholder="Your name"
-                            className="bg-background border-border"
+                            className="bg-background border-border rounded-lg focus:border-primary focus:ring-primary"
                             {...field}
                           />
                         </FormControl>
@@ -326,7 +330,7 @@ export function Contact() {
                           <Input
                             placeholder="your@email.com"
                             type="email"
-                            className="bg-background border-border"
+                            className="bg-background border-border rounded-lg focus:border-primary focus:ring-primary"
                             {...field}
                           />
                         </FormControl>
@@ -346,7 +350,7 @@ export function Contact() {
                         <FormControl>
                           <Input
                             placeholder="Your phone number"
-                            className="bg-background border-border"
+                            className="bg-background border-border rounded-lg focus:border-primary focus:ring-primary"
                             {...field}
                           />
                         </FormControl>
@@ -362,7 +366,7 @@ export function Contact() {
                         <FormLabel className="text-foreground">Service Interest</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger className="bg-background border-border">
+                            <SelectTrigger className="bg-background border-border rounded-lg">
                               <SelectValue placeholder="Select a service" />
                             </SelectTrigger>
                           </FormControl>
@@ -389,7 +393,7 @@ export function Contact() {
                       <FormControl>
                         <Textarea
                           placeholder="Tell us about your project..."
-                          className="bg-background border-border min-h-[120px] resize-none"
+                          className="bg-background border-border min-h-[120px] resize-none rounded-lg focus:border-primary focus:ring-primary"
                           {...field}
                         />
                       </FormControl>
@@ -403,7 +407,7 @@ export function Contact() {
                   disabled={isSubmitting || isSubmitted}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full h-12 bg-foreground text-background rounded-md font-medium hover:bg-foreground/90 transition-all disabled:opacity-50 flex items-center justify-center gap-2 button-glow"
+                  className="w-full h-12 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2 button-glow"
                 >
                   <AnimatePresence mode="wait">
                     {isSubmitted ? (

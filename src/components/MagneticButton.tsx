@@ -1,6 +1,7 @@
 import React, { useRef, useState, useCallback, forwardRef } from 'react';
 import { motion, useSpring } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { ArrowRight } from 'lucide-react';
 
 interface MagneticButtonProps {
   children: React.ReactNode;
@@ -8,6 +9,7 @@ interface MagneticButtonProps {
   variant?: 'primary' | 'secondary';
   onClick?: () => void;
   href?: string;
+  showArrow?: boolean;
 }
 
 export const MagneticButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, MagneticButtonProps>(
@@ -17,6 +19,7 @@ export const MagneticButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, 
     variant = 'primary',
     onClick,
     href,
+    showArrow = false,
   }, forwardedRef) {
   const internalRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
   const ref = (forwardedRef as React.RefObject<HTMLButtonElement | HTMLAnchorElement>) || internalRef;
@@ -49,11 +52,11 @@ export const MagneticButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, 
   }, [x, y]);
 
   const baseStyles = cn(
-    'relative inline-flex items-center justify-center px-8 py-4 text-sm font-medium tracking-wide uppercase transition-all duration-300 rounded-full overflow-hidden',
+    'relative inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-medium tracking-wide uppercase transition-all duration-300 rounded-full overflow-hidden',
     variant === 'primary' &&
-      'bg-foreground text-background button-glow hover:scale-105',
+      'bg-primary text-primary-foreground button-glow hover:scale-105',
     variant === 'secondary' &&
-      'bg-transparent border-2 border-foreground/30 text-foreground hover:border-foreground hover:bg-foreground/5',
+      'bg-transparent border-2 border-border text-foreground hover:border-primary/50 hover:bg-primary/5',
     className
   );
 
@@ -71,10 +74,20 @@ export const MagneticButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, 
       whileTap={{ scale: 0.95 }}
       {...props}
     >
-      <span className="relative z-10">{children}</span>
+      <span className="relative z-10 flex items-center gap-2">
+        {children}
+        {showArrow && (
+          <motion.span
+            animate={{ x: isHovered ? 4 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <ArrowRight className="h-4 w-4" />
+          </motion.span>
+        )}
+      </span>
       {variant === 'primary' && (
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-muted-foreground/20 to-transparent"
+          className="absolute inset-0 bg-gradient-to-r from-primary-foreground/10 to-transparent"
           initial={{ x: '-100%' }}
           animate={{ x: isHovered ? '100%' : '-100%' }}
           transition={{ duration: 0.5 }}

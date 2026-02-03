@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import logo from '@/assets/logo.svg';
 
 const footerLinks = {
@@ -39,7 +40,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="snap-section relative border-t border-border/50 bg-card/50">
+    <footer className="snap-section relative border-t border-border/50 bg-card/30">
       <div className="container-custom py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
@@ -49,7 +50,7 @@ export function Footer() {
                 <img
                   src={logo}
                   alt="Astute Computer"
-                  className="h-8 w-auto invert"
+                  className="h-8 w-auto dark:invert"
                 />
                 <span className="text-lg font-semibold text-foreground">
                   Astute Computer
@@ -59,11 +60,13 @@ export function Footer() {
             <p className="text-muted-foreground max-w-sm mb-6">
               Transforming businesses through innovative digital solutions. From branding to AI-powered systems, we build software that powers your success.
             </p>
+            
+            {/* Social Icons */}
             <div className="flex gap-4">
               <motion.a
                 href="#"
-                whileHover={{ scale: 1.1 }}
-                className="w-10 h-10 rounded-full bg-foreground/5 border border-foreground/10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/10 transition-colors"
+                whileHover={{ scale: 1.1, y: -2 }}
+                className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/20 transition-colors"
                 aria-label="Twitter"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -72,8 +75,8 @@ export function Footer() {
               </motion.a>
               <motion.a
                 href="#"
-                whileHover={{ scale: 1.1 }}
-                className="w-10 h-10 rounded-full bg-foreground/5 border border-foreground/10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/10 transition-colors"
+                whileHover={{ scale: 1.1, y: -2 }}
+                className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/20 transition-colors"
                 aria-label="LinkedIn"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -93,9 +96,10 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm link-underline"
+                    className="group text-muted-foreground hover:text-primary transition-colors text-sm flex items-center gap-1"
                   >
                     {link.name}
+                    <ArrowRight className="h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                   </Link>
                 </li>
               ))}
@@ -112,9 +116,10 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm link-underline"
+                    className="group text-muted-foreground hover:text-primary transition-colors text-sm flex items-center gap-1"
                   >
                     {link.name}
+                    <ArrowRight className="h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                   </Link>
                 </li>
               ))}
@@ -131,9 +136,10 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm link-underline"
+                    className="group text-muted-foreground hover:text-primary transition-colors text-sm flex items-center gap-1"
                   >
                     {link.name}
+                    <ArrowRight className="h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                   </Link>
                 </li>
               ))}
@@ -141,16 +147,16 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom */}
+        {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
             © {currentYear} Astute Computer. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <button className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Privacy Policy
             </button>
-            <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <button className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Terms of Service
             </button>
           </div>

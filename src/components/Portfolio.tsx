@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { usePublishedCaseStudies, type CaseStudy } from '@/hooks/useCaseStudies';
+import { usePublishedCaseStudies } from '@/hooks/useCaseStudies';
 
 // Fallback data for when database is empty
 const fallbackProjects = [
@@ -97,7 +97,7 @@ function ProjectCard({ project, index, isFromDatabase }: ProjectCardProps) {
       onMouseLeave={() => setIsHovered(false)}
       className="relative flex-shrink-0 w-[320px] sm:w-[380px] lg:w-[420px] group cursor-pointer"
     >
-      <div className="relative overflow-hidden rounded-2xl bg-card border border-border/50 aspect-[4/5]">
+      <div className="relative overflow-hidden rounded-2xl bg-card border border-border/50 hover:border-primary/30 aspect-[4/5] transition-all duration-300">
         {/* Image */}
         <motion.div
           className="absolute inset-0"
@@ -112,46 +112,39 @@ function ProjectCard({ project, index, isFromDatabase }: ProjectCardProps) {
               className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
         </motion.div>
+
+        {/* Stats Badge */}
+        {project.stat_value && (
+          <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-primary/90 text-primary-foreground text-sm font-medium backdrop-blur-sm">
+            {project.stat_value} {project.stat_metric}
+          </div>
+        )}
 
         {/* Content */}
         <div className="absolute inset-0 p-6 flex flex-col justify-end">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-xs uppercase tracking-widest text-muted-foreground mb-2"
+            className="text-xs uppercase tracking-widest text-primary mb-2"
           >
             {project.category}
           </motion.span>
-          <h3 className="text-2xl font-bold text-foreground mb-2">
+          <h3 className="text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
             {project.title}
           </h3>
           <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
             {project.short_description}
           </p>
 
-          {/* Stats */}
-          <div className="flex items-center justify-between">
-            <div>
-              {project.stat_value && (
-                <>
-                  <span className="text-3xl font-bold text-foreground">
-                    {project.stat_value}
-                  </span>
-                  <span className="text-sm text-muted-foreground ml-2">
-                    {project.stat_metric}
-                  </span>
-                </>
-              )}
-            </div>
-            <motion.div
-              animate={{ x: isHovered ? 5 : 0 }}
-              className="w-10 h-10 rounded-full bg-foreground/10 flex items-center justify-center group-hover:bg-foreground group-hover:text-background transition-colors"
-            >
-              <ArrowRight size={18} />
-            </motion.div>
-          </div>
+          {/* Arrow */}
+          <motion.div
+            animate={{ x: isHovered ? 5 : 0, scale: isHovered ? 1.1 : 1 }}
+            className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-colors"
+          >
+            <ArrowRight size={18} className="text-primary group-hover:text-primary-foreground" />
+          </motion.div>
         </div>
       </div>
     </motion.div>
@@ -193,6 +186,9 @@ export function Portfolio() {
       ref={containerRef}
       className="snap-section section-padding relative overflow-hidden"
     >
+      {/* Background glow */}
+      <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px] -translate-y-1/2" />
+      
       <div className="container-custom mb-16">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -201,7 +197,7 @@ export function Portfolio() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6 }}
-              className="inline-block text-sm uppercase tracking-widest text-muted-foreground mb-4"
+              className="inline-block text-sm uppercase tracking-widest text-primary mb-4"
             >
               Our Work
             </motion.span>
@@ -224,7 +220,7 @@ export function Portfolio() {
           >
             <Link
               to="/case-studies"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+              className="text-sm font-medium text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
             >
               View all
               <ArrowRight className="h-4 w-4" />
@@ -235,28 +231,16 @@ export function Portfolio() {
                 onClick={() => scrollCarousel('left')}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-12 h-12 rounded-full border border-border/50 bg-card/50 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/50 hover:shadow-[0_0_20px_hsl(var(--foreground)/0.1)] transition-all duration-300"
+                className="w-12 h-12 rounded-full border border-border bg-card/50 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-300"
               >
                 <ChevronLeft size={20} />
               </motion.button>
-              
-              {/* Animated connecting line */}
-              <div className="relative w-8 h-px">
-                <div className="absolute inset-0 bg-border/50" />
-                <motion.div
-                  className="absolute inset-0 bg-foreground/50"
-                  animate={{ scaleX: [0, 1, 0], originX: ['0%', '0%', '100%'] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                />
-              </div>
               
               <motion.button
                 onClick={() => scrollCarousel('right')}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                animate={{ x: [0, 3, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                className="w-12 h-12 rounded-full border border-border/50 bg-card/50 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/50 hover:shadow-[0_0_20px_hsl(var(--foreground)/0.1)] transition-all duration-300"
+                className="w-12 h-12 rounded-full border border-border bg-card/50 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-300"
               >
                 <ChevronRight size={20} />
               </motion.button>
@@ -275,7 +259,7 @@ export function Portfolio() {
         
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : (
           <div
@@ -295,38 +279,6 @@ export function Portfolio() {
           </div>
         )}
       </div>
-
-      {/* Stats Bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="container-custom mt-20"
-      >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-t border-b border-border/50">
-          {[
-            { value: '30+', label: 'Projects Completed' },
-            { value: '10+', label: 'Happy Clients' },
-            { value: '3+', label: 'Years Experience' },
-            { value: '100%', label: 'Client Satisfaction' },
-          ].map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="text-center"
-            >
-              <div className="text-4xl sm:text-5xl font-bold text-foreground mb-2">
-                {stat.value}
-              </div>
-              <div className="text-sm text-muted-foreground">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
     </section>
   );
 }

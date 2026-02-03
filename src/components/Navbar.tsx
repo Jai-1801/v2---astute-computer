@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from './ThemeToggle';
 import logo from '@/assets/logo.svg';
 
 const navLinks = [
@@ -72,7 +73,7 @@ export function Navbar() {
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-          isScrolled ? 'py-4' : 'py-6'
+          isScrolled ? 'py-3' : 'py-5'
         )}
       >
         <div className="container-custom">
@@ -80,7 +81,7 @@ export function Navbar() {
             className={cn(
               'flex items-center justify-between px-6 py-3 rounded-full transition-all duration-500',
               isScrolled
-                ? 'glass-strong shadow-lg'
+                ? 'glass-strong shadow-lg border-primary/10'
                 : 'bg-transparent'
             )}
           >
@@ -90,7 +91,7 @@ export function Navbar() {
                 <img
                   src={logo}
                   alt="Astute Computer"
-                  className="h-8 w-auto invert"
+                  className="h-8 w-auto dark:invert"
                 />
                 <span className="hidden sm:block text-lg font-semibold tracking-tight text-foreground">
                   Astute Computer
@@ -98,8 +99,8 @@ export function Navbar() {
               </Link>
             </motion.div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
+            {/* Desktop Navigation - Centered */}
+            <div className="hidden lg:flex items-center gap-8">
               {navLinks.map((link) => (
                 <div
                   key={link.name}
@@ -113,34 +114,38 @@ export function Navbar() {
                         onClick={() => handleNavClick(link.href)}
                         className={cn(
                           "flex items-center gap-1 text-sm font-medium transition-colors link-underline py-1",
-                          isActiveLink(link.href) ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                          isActiveLink(link.href) ? "text-primary" : "text-muted-foreground hover:text-foreground"
                         )}
                       >
                         {link.name}
-                        <ChevronDown className="h-3 w-3" />
+                        <ChevronDown className={cn(
+                          "h-3 w-3 transition-transform duration-200",
+                          openSubmenu === link.name && "rotate-180"
+                        )} />
                       </button>
                       <AnimatePresence>
                         {openSubmenu === link.name && (
                           <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
                             transition={{ duration: 0.2 }}
-                            className="absolute top-full left-0 pt-2"
+                            className="absolute top-full left-0 pt-3"
                           >
-                            <div className="bg-card border border-border rounded-lg shadow-lg py-2 min-w-[220px]">
+                            <div className="bg-card/95 backdrop-blur-xl border border-border rounded-xl shadow-lg py-2 min-w-[220px]">
                               {link.submenu.map((sublink) => (
                                 <Link
                                   key={sublink.name}
                                   to={sublink.href}
                                   className={cn(
-                                    "block px-4 py-2 text-sm transition-colors",
+                                    "flex items-center justify-between px-4 py-2.5 text-sm transition-colors group",
                                     isActiveLink(sublink.href)
-                                      ? "text-foreground bg-foreground/5"
-                                      : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                                      ? "text-primary bg-primary/5"
+                                      : "text-muted-foreground hover:text-foreground hover:bg-primary/5"
                                   )}
                                 >
                                   {sublink.name}
+                                  <ArrowRight className="h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                                 </Link>
                               ))}
                             </div>
@@ -163,7 +168,7 @@ export function Navbar() {
                         to={link.href}
                         className={cn(
                           "text-sm font-medium transition-colors link-underline py-1",
-                          isActiveLink(link.href) ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                          isActiveLink(link.href) ? "text-primary" : "text-muted-foreground hover:text-foreground"
                         )}
                       >
                         {link.name}
@@ -172,24 +177,33 @@ export function Navbar() {
                   )}
                 </div>
               ))}
+            </div>
+
+            {/* Right Side - Theme Toggle + CTA */}
+            <div className="hidden lg:flex items-center gap-4">
+              <ThemeToggle />
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link
                   to="/contact"
-                  className="px-6 py-2.5 bg-foreground text-background text-sm font-medium rounded-full hover:bg-foreground/90 transition-all button-glow"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground text-sm font-medium rounded-full hover:opacity-90 transition-all button-glow"
                 >
                   Get Started
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
               </motion.div>
             </div>
 
-            {/* Mobile Menu Button */}
-            <motion.button
-              className="md:hidden p-2 text-foreground"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              whileTap={{ scale: 0.9 }}
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </motion.button>
+            {/* Mobile - Theme Toggle + Menu Button */}
+            <div className="flex lg:hidden items-center gap-3">
+              <ThemeToggle />
+              <motion.button
+                className="p-2 text-foreground"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                whileTap={{ scale: 0.9 }}
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </motion.button>
+            </div>
           </div>
         </div>
       </motion.nav>
@@ -198,18 +212,18 @@ export function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 md:hidden"
+            className="fixed inset-0 z-40 lg:hidden"
           >
             <div
-              className="absolute inset-0 bg-background/95 backdrop-blur-xl"
+              className="absolute inset-0 bg-background/98 backdrop-blur-2xl"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
-              className="relative flex flex-col items-center justify-center h-full gap-6"
+              className="relative flex flex-col items-center justify-center h-full gap-8"
               initial="closed"
               animate="open"
               exit="closed"
@@ -231,10 +245,10 @@ export function Navbar() {
                     <>
                       <button
                         onClick={() => setOpenSubmenu(openSubmenu === link.name ? null : link.name)}
-                        className="text-2xl font-light text-foreground flex items-center gap-2"
+                        className="text-3xl font-light text-foreground flex items-center gap-2"
                       >
                         {link.name}
-                        <ChevronDown className={cn("h-5 w-5 transition-transform", openSubmenu === link.name && "rotate-180")} />
+                        <ChevronDown className={cn("h-6 w-6 transition-transform", openSubmenu === link.name && "rotate-180")} />
                       </button>
                       <AnimatePresence>
                         {openSubmenu === link.name && (
@@ -242,14 +256,14 @@ export function Navbar() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="flex flex-col items-center gap-2 mt-2"
+                            className="flex flex-col items-center gap-3 mt-4"
                           >
                             {link.submenu.map((sublink) => (
                               <Link
                                 key={sublink.name}
                                 to={sublink.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="text-lg text-muted-foreground hover:text-foreground transition-colors"
+                                className="text-lg text-muted-foreground hover:text-primary transition-colors"
                               >
                                 {sublink.name}
                               </Link>
@@ -261,7 +275,7 @@ export function Navbar() {
                   ) : link.href.startsWith('/#') ? (
                     <button
                       onClick={() => handleNavClick(link.href)}
-                      className="text-2xl font-light text-foreground hover:text-muted-foreground transition-colors"
+                      className="text-3xl font-light text-foreground hover:text-primary transition-colors"
                     >
                       {link.name}
                     </button>
@@ -269,7 +283,7 @@ export function Navbar() {
                     <Link
                       to={link.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-2xl font-light text-foreground hover:text-muted-foreground transition-colors"
+                      className="text-3xl font-light text-foreground hover:text-primary transition-colors"
                     >
                       {link.name}
                     </Link>
@@ -285,9 +299,10 @@ export function Navbar() {
                 <Link
                   to="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="mt-4 px-8 py-4 bg-foreground text-background text-lg font-medium rounded-full"
+                  className="mt-6 inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground text-lg font-medium rounded-full button-glow"
                 >
                   Get Started
+                  <ArrowRight className="h-5 w-5" />
                 </Link>
               </motion.div>
             </motion.div>
