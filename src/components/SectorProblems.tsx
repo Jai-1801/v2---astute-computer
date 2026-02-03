@@ -1,15 +1,8 @@
 import { useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { 
-  Stethoscope, 
-  Scale, 
-  Factory, 
-  TrendingUp, 
-  ShoppingCart, 
-  GraduationCap 
-} from 'lucide-react';
+import { ArrowRight, Stethoscope, Scale, Factory, TrendingUp, ShoppingCart, GraduationCap } from 'lucide-react';
+import { BlurFade } from '@/components/ui/BlurFade';
 
 const sectors = [
   {
@@ -80,81 +73,71 @@ function SectorCard({
   const [isHovered, setIsHovered] = useState(false);
   
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ 
-        duration: 0.6, 
-        delay: index * 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }}
-      viewport={{ once: true }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={() => onNavigate(sector.id)}
-      className={`relative group cursor-pointer ${
-        sector.size === 'large' ? 'md:col-span-2' : ''
-      }`}
-    >
-      <motion.div
-        animate={{ 
-          y: isHovered ? -8 : 0,
-        }}
-        transition={{ duration: 0.3 }}
-        className="h-full p-6 sm:p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 overflow-hidden relative transition-all duration-300"
+    <BlurFade delay={index * 0.1}>
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={() => onNavigate(sector.id)}
+        className={`relative group cursor-pointer ${
+          sector.size === 'large' ? 'md:col-span-2' : ''
+        }`}
       >
-        {/* Glow effect on hover */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        />
-        
-        {/* Icon */}
-        <div className="relative z-10">
-          <motion.div
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all duration-300"
-          >
-            <sector.icon className="w-5 h-5 text-primary" />
-          </motion.div>
-        </div>
-        
-        <div className="relative z-10">
-          <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-            {sector.title}
-          </h3>
-          <p className="text-sm font-medium text-primary/70 mb-3">
-            {sector.problem}
-          </p>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-            {sector.description}
-          </p>
-          
-          {/* Solution reveal on hover */}
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ 
-              opacity: isHovered ? 1 : 0, 
-              height: isHovered ? 'auto' : 0 
-            }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <div className="pt-4 border-t border-border/30">
-              <span className="text-xs uppercase tracking-widest text-muted-foreground">Our Solution</span>
-              <p className="text-sm text-foreground/80 mt-1">{sector.solution}</p>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Arrow indicator */}
-        <motion.div
-          animate={{ x: isHovered ? 4 : 0, opacity: isHovered ? 1 : 0 }}
-          className="absolute bottom-6 right-6"
+        <div
+          className="h-full p-5 sm:p-6 md:p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 overflow-hidden relative transition-all duration-300"
+          style={{ transform: isHovered ? 'translateY(-4px)' : 'translateY(0)' }}
         >
-          <ArrowRight className="h-5 w-5 text-primary" />
-        </motion.div>
-      </motion.div>
-    </motion.div>
+          {/* Glow effect on hover */}
+          <div
+            className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent transition-opacity duration-300"
+            style={{ opacity: isHovered ? 1 : 0 }}
+          />
+          
+          {/* Icon */}
+          <div className="relative z-10">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all duration-300">
+              <sector.icon className="w-5 h-5 text-primary" />
+            </div>
+          </div>
+          
+          <div className="relative z-10">
+            <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+              {sector.title}
+            </h3>
+            <p className="text-xs sm:text-sm font-medium text-primary/70 mb-2 sm:mb-3">
+              {sector.problem}
+            </p>
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-4">
+              {sector.description}
+            </p>
+            
+            {/* Solution reveal on hover */}
+            <div
+              className="overflow-hidden transition-all duration-300"
+              style={{ 
+                opacity: isHovered ? 1 : 0, 
+                maxHeight: isHovered ? '100px' : '0px' 
+              }}
+            >
+              <div className="pt-4 border-t border-border/30">
+                <span className="text-xs uppercase tracking-widest text-muted-foreground">Our Solution</span>
+                <p className="text-xs sm:text-sm text-foreground/80 mt-1">{sector.solution}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Arrow indicator */}
+          <div
+            className="absolute bottom-5 sm:bottom-6 right-5 sm:right-6 transition-all duration-300"
+            style={{ 
+              transform: isHovered ? 'translateX(4px)' : 'translateX(0)', 
+              opacity: isHovered ? 1 : 0 
+            }}
+          >
+            <ArrowRight className="h-5 w-5 text-primary" />
+          </div>
+        </div>
+      </div>
+    </BlurFade>
   );
 }
 
@@ -168,41 +151,30 @@ export function SectorProblems() {
   };
 
   return (
-    <section id="sectors" className="snap-section section-padding relative overflow-hidden">
-      {/* Background */}
+    <section id="sectors" className="relative overflow-hidden py-20 sm:py-24 md:py-32">
       <div className="absolute inset-0 grid-pattern opacity-10" />
-      {/* Purple ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[200px]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[200px]" />
 
-      <div ref={ref} className="container-custom relative z-10">
+      <div ref={ref} className="container-custom relative z-10 px-6 sm:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6 }}
-            className="inline-block text-sm uppercase tracking-widest text-primary mb-4"
-          >
-            Industries We Serve
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6"
-          >
-            Solving Industry
-            <br />
-            <span className="text-gradient-purple">Challenges</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-muted-foreground max-w-2xl mx-auto"
-          >
-            Every sector faces unique digital transformation hurdles. We've solved them all.
-          </motion.p>
+        <div className="text-center mb-12 sm:mb-16">
+          <BlurFade>
+            <span className="inline-block text-xs sm:text-sm uppercase tracking-widest text-primary mb-3 sm:mb-4">
+              Industries We Serve
+            </span>
+          </BlurFade>
+          <BlurFade delay={0.1}>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
+              Solving Industry
+              <br />
+              <span className="text-gradient-purple">Challenges</span>
+            </h2>
+          </BlurFade>
+          <BlurFade delay={0.2}>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+              Every sector faces unique digital transformation hurdles. We've solved them all.
+            </p>
+          </BlurFade>
         </div>
 
         {/* Bento Grid */}
@@ -218,31 +190,20 @@ export function SectorProblems() {
         </div>
 
         {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="text-center mt-16"
-        >
-          <p className="text-muted-foreground mb-4">
-            Don't see your industry? We adapt our solutions to any sector.
-          </p>
-          <motion.a
-            href="#contact"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-2 text-primary font-medium link-underline"
-          >
-            Let's discuss your challenges
-            <motion.span
-              animate={{ x: [0, 4, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+        <BlurFade delay={0.4}>
+          <div className="text-center mt-12 sm:mt-16">
+            <p className="text-sm sm:text-base text-muted-foreground mb-4">
+              Don't see your industry? We adapt our solutions to any sector.
+            </p>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 text-primary font-medium link-underline text-sm sm:text-base"
             >
-              →
-            </motion.span>
-          </motion.a>
-        </motion.div>
+              Let's discuss your challenges
+              <span>→</span>
+            </a>
+          </div>
+        </BlurFade>
       </div>
     </section>
   );

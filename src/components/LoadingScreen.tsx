@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import logo from '@/assets/logo.svg';
 
 interface LoadingScreenProps {
@@ -14,12 +14,12 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(onComplete, 500);
+          setTimeout(onComplete, 300);
           return 100;
         }
-        return prev + Math.random() * 15;
+        return prev + Math.random() * 20;
       });
-    }, 100);
+    }, 80);
 
     return () => clearInterval(timer);
   }, [onComplete]);
@@ -28,49 +28,37 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.8, ease: 'easeInOut' }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
       className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center"
     >
-      {/* Logo Animation */}
+      {/* Logo */}
       <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
+        initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="mb-8"
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className="mb-6"
       >
-        <motion.img
+        <img
           src={logo}
           alt="Astute Computer"
-          className="h-16 w-auto"
-          animate={{
-            filter: [
-              'invert(1) brightness(1)',
-              'invert(1) brightness(1.2)',
-              'invert(1) brightness(1)',
-            ],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
+          className="h-12 sm:h-16 w-auto dark:invert"
         />
       </motion.div>
 
       {/* Company Name */}
       <motion.h1
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-        className="text-2xl font-semibold text-foreground mb-8"
+        transition={{ delay: 0.2, duration: 0.4 }}
+        className="text-xl sm:text-2xl font-semibold text-foreground mb-6 sm:mb-8"
       >
         Astute Computer
       </motion.h1>
 
       {/* Progress Bar */}
-      <div className="w-48 h-px bg-border overflow-hidden">
+      <div className="w-40 sm:w-48 h-px bg-border overflow-hidden">
         <motion.div
-          className="h-full bg-foreground"
+          className="h-full bg-primary"
           initial={{ width: 0 }}
           animate={{ width: `${Math.min(progress, 100)}%` }}
           transition={{ duration: 0.1 }}
@@ -81,10 +69,10 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="mt-4 text-sm text-muted-foreground"
+        transition={{ delay: 0.3 }}
+        className="mt-4 text-xs sm:text-sm text-muted-foreground"
       >
-        Loading experience...
+        Loading...
       </motion.p>
     </motion.div>
   );

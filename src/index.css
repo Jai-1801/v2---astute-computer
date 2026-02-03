@@ -267,14 +267,9 @@
     @apply scale-x-100 origin-left;
   }
 
-  /* Section spacing */
-  .section-padding {
-    @apply py-24 md:py-32 lg:py-40;
-  }
-
   /* Container */
   .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-7xl mx-auto;
   }
 
   /* Purple ambient glow background */
@@ -297,7 +292,7 @@
 
   /* Announcement Badge/Pill */
   .badge-announcement {
-    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium;
+    @apply inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium;
     @apply bg-primary/10 text-primary border border-primary/20;
   }
 }

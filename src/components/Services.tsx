@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, Palette, Cog, FileText, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Palette, Cog, FileText, Code } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { BlurFade } from '@/components/ui/BlurFade';
 
 const services = [
   {
@@ -48,80 +48,63 @@ function ServiceItem({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      }}
-    >
+    <BlurFade delay={index * 0.1}>
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <div className="group border-b border-border/50 last:border-b-0">
           <CollapsibleTrigger asChild>
-            <button className="w-full py-8 flex items-center justify-between text-left transition-colors hover:bg-primary/5 px-4 -mx-4 rounded-lg">
-              <div className="flex items-center gap-6">
-                {/* Number */}
-                <span className="text-4xl font-bold text-primary/30 group-hover:text-primary/50 transition-colors">
+            <button className="w-full py-6 sm:py-8 flex items-center justify-between text-left transition-colors hover:bg-primary/5 px-4 -mx-4 rounded-lg">
+              <div className="flex items-center gap-4 sm:gap-6">
+                <span className="text-3xl sm:text-4xl font-bold text-primary/30 group-hover:text-primary/50 transition-colors">
                   0{index + 1}
                 </span>
-                {/* Title */}
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <service.icon className="w-6 h-6 text-primary" />
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <service.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-semibold text-foreground group-hover:text-primary transition-colors">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground group-hover:text-primary transition-colors">
                     {service.title}
                   </h3>
                 </div>
               </div>
-              {/* Arrow / Chevron */}
               <motion.div
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: 0.2 }}
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center group-hover:border-primary/50 group-hover:bg-primary/10 transition-colors"
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-border flex items-center justify-center group-hover:border-primary/50 group-hover:bg-primary/10 transition-colors flex-shrink-0"
               >
-                <ChevronDown className="w-5 h-5 text-muted-foreground group-hover:text-primary" />
+                <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground group-hover:text-primary" />
               </motion.div>
             </button>
           </CollapsibleTrigger>
           
           <CollapsibleContent>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="pb-8 pl-24"
-            >
-              <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
+            <div className="pb-6 sm:pb-8 pl-16 sm:pl-24">
+              <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed text-sm sm:text-base">
                 {service.description}
               </p>
               
-              {/* Features */}
-              <div className="flex flex-wrap gap-3 mb-6">
+              <div className="flex flex-wrap gap-2 sm:gap-3 mb-6">
                 {service.features.map((feature) => (
                   <span
                     key={feature}
-                    className="px-4 py-2 text-sm bg-secondary/50 border border-border rounded-full text-muted-foreground"
+                    className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm bg-secondary/50 border border-border rounded-full text-muted-foreground"
                   >
                     {feature}
                   </span>
                 ))}
               </div>
               
-              {/* CTA */}
               <Link
                 to={`/services/${service.slug}`}
-                className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all text-sm sm:text-base"
               >
                 Learn more
                 <ArrowRight className="h-4 w-4" />
               </Link>
-            </motion.div>
+            </div>
           </CollapsibleContent>
         </div>
       </Collapsible>
-    </motion.div>
+    </BlurFade>
   );
 }
 
@@ -130,41 +113,30 @@ export function Services() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="services" className="snap-section relative overflow-hidden">
-      {/* Background elements */}
+    <section id="services" className="relative overflow-hidden py-20 sm:py-24 md:py-32">
       <div className="absolute inset-0 grid-pattern opacity-20" />
-      {/* Purple ambient glow */}
-      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px] -translate-y-1/2" />
+      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[150px] -translate-y-1/2" />
 
-      <div ref={ref} className="container-custom relative z-10 py-24 md:py-32">
+      <div ref={ref} className="container-custom relative z-10 px-6 sm:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6 mb-12 sm:mb-16">
           <div>
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6 }}
-              className="inline-block text-sm uppercase tracking-widest text-primary mb-4"
-            >
-              What We Do
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground"
-            >
-              Our Offerings
-            </motion.h2>
+            <BlurFade>
+              <span className="inline-block text-xs sm:text-sm uppercase tracking-widest text-primary mb-3 sm:mb-4">
+                What We Do
+              </span>
+            </BlurFade>
+            <BlurFade delay={0.1}>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
+                Our Offerings
+              </h2>
+            </BlurFade>
           </div>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-muted-foreground max-w-md"
-          >
-            End-to-end digital solutions that transform how you operate, communicate, and grow.
-          </motion.p>
+          <BlurFade delay={0.2}>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-md">
+              End-to-end digital solutions that transform how you operate, communicate, and grow.
+            </p>
+          </BlurFade>
         </div>
 
         {/* Services List */}
