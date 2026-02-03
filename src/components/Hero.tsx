@@ -26,7 +26,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex items-center overflow-hidden pt-24"
+      className="relative min-h-screen flex items-center overflow-hidden pt-28"
     >
       {/* Purple Ambient Glow Background */}
       <div className="absolute inset-0">

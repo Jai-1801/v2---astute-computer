@@ -179,11 +179,11 @@ export function Portfolio() {
     <section
       id="portfolio"
       ref={containerRef}
-      className="relative overflow-hidden py-20 sm:py-24 md:py-32"
+      className="relative overflow-hidden py-24 sm:py-32 lg:py-40"
     >
-      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[150px] -translate-y-1/2" />
+      {/* Remove the blurry glow effect - keep it sharp */}
       
-      <div className="container-custom px-6 sm:px-8 mb-12 sm:mb-16">
+      <div className="container-custom px-6 sm:px-8 lg:px-12 mb-12 sm:mb-16">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6">
           <div>
@@ -230,10 +230,8 @@ export function Portfolio() {
         </div>
       </div>
 
-      {/* Horizontal Scroll Gallery */}
+      {/* Horizontal Scroll Gallery - NO fog/gradient edges */}
       <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-6 sm:w-12 lg:w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-6 sm:w-12 lg:w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
         
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
