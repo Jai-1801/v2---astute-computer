@@ -150,17 +150,31 @@ const DotGrid: React.FC<DotGridProps> = ({
         const dsq = dx * dx + dy * dy;
 
         let fillStyle = baseColor;
+        let glowIntensity = 0;
+        
         if (dsq <= proxSq) {
           const dist = Math.sqrt(dsq);
           const t = 1 - dist / proximity;
-          const r = Math.round(baseRgb.r + (activeRgb.r - baseRgb.r) * t);
-          const g = Math.round(baseRgb.g + (activeRgb.g - baseRgb.g) * t);
-          const b = Math.round(baseRgb.b + (activeRgb.b - baseRgb.b) * t);
+          // Boost brightness significantly when close to cursor
+          const brightnessBoost = 1 + t * 1.5; // Up to 2.5x brighter
+          const r = Math.min(255, Math.round((baseRgb.r + (activeRgb.r - baseRgb.r) * t) * brightnessBoost));
+          const g = Math.min(255, Math.round((baseRgb.g + (activeRgb.g - baseRgb.g) * t) * brightnessBoost));
+          const b = Math.min(255, Math.round((baseRgb.b + (activeRgb.b - baseRgb.b) * t) * brightnessBoost));
           fillStyle = `rgb(${r},${g},${b})`;
+          glowIntensity = t;
         }
 
         ctx.save();
         ctx.translate(ox, oy);
+        
+        // Add glow effect for dots near cursor
+        if (glowIntensity > 0) {
+          const glowRadius = 15 + glowIntensity * 25; // Glow radius increases closer to cursor
+          const glowAlpha = glowIntensity * 0.8; // Strong glow
+          ctx.shadowColor = `rgba(${activeRgb.r}, ${activeRgb.g}, ${activeRgb.b}, ${glowAlpha})`;
+          ctx.shadowBlur = glowRadius;
+        }
+        
         ctx.fillStyle = fillStyle;
         ctx.fill(circlePath);
         ctx.restore();
