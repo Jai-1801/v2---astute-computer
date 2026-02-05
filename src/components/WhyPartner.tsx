@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Sparkles, Shield, Users, Zap } from 'lucide-react';
-import { BlurFade } from '@/components/ui/BlurFade';
 import businessImg from '@/assets/sections/why-partner-business.jpg';
 import indiaImg from '@/assets/sections/why-partner-india.jpg';
+import skyscrapersImg from '@/assets/sections/skyscrapers.jpg';
+import aiImg from '@/assets/sections/ai-purple-abstract.jpg';
 
 const features = [
   {
@@ -17,7 +18,7 @@ const features = [
     icon: Sparkles,
     title: 'AI-Powered Solutions',
     description: 'Cutting-edge AI and automation to streamline your operations.',
-    image: businessImg,
+    image: aiImg,
   },
   {
     id: 'expertise',
@@ -31,7 +32,7 @@ const features = [
     icon: Shield,
     title: 'Robust Partner Ecosystem',
     description: 'Strong network of technology partners and industry connections.',
-    image: indiaImg,
+    image: skyscrapersImg,
   },
 ];
 
@@ -40,92 +41,83 @@ export function WhyPartner() {
 
   return (
     <section className="relative py-24 sm:py-32 lg:py-40 overflow-hidden">
-      {/* Background images that change on hover - instant transition */}
+      {/* Background images that change on hover */}
       {features.map((feature) => (
         <div
           key={feature.id}
-          className="absolute inset-0"
+          className="absolute inset-0 transition-opacity duration-500 ease-out"
           style={{ 
             opacity: activeFeature.id === feature.id ? 1 : 0,
-            transition: 'opacity 100ms ease-out'
           }}
         >
           <img
             src={feature.image}
             alt=""
             className="w-full h-full object-cover"
+            loading="lazy"
           />
-          <div className="absolute inset-0 bg-background/70 dark:bg-background/80" />
         </div>
       ))}
 
       {/* Content */}
       <div className="relative z-10 container-custom px-6 sm:px-8 lg:px-12">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left: Image Card */}
-          <BlurFade>
-            <div className="relative max-w-lg mx-auto lg:mx-0">
-              <div className="aspect-[3/4] rounded-2xl overflow-hidden border-4 border-background shadow-2xl">
-                <img
-                  src={activeFeature.image}
-                  alt={activeFeature.title}
-                  className="w-full h-full object-cover"
-                  style={{ transition: 'opacity 100ms ease-out' }}
-                />
-              </div>
+        {/* Card frame with transparent left cutout */}
+        <div className="relative max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-2 min-h-[520px]">
+            {/* Left: Transparent cutout - just shows background through */}
+            <div className="relative h-64 lg:h-auto rounded-l-3xl overflow-hidden border-4 border-r-0 border-white/90 lg:border-r-0">
+              {/* This is just a frame - background shows through */}
             </div>
-          </BlurFade>
 
-          {/* Right: Feature List */}
-          <div className="bg-card/90 backdrop-blur-md rounded-2xl p-8 sm:p-10 lg:p-12 border border-border/50">
-            <BlurFade delay={0.1}>
-              <div className="flex items-center gap-3 mb-10">
-                <div className="w-2.5 h-2.5 rounded-full bg-primary" />
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
+            {/* Right: White/Cream panel with content */}
+            <div className="bg-[#faf8f5] rounded-r-3xl lg:rounded-l-none rounded-l-3xl lg:rounded-tr-3xl lg:rounded-br-3xl p-8 sm:p-10 lg:p-12 border-4 border-white/90">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-2.5 h-2.5 rounded-full bg-pink-500" />
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
                   Why Partner With Us?
                 </h2>
               </div>
-            </BlurFade>
 
-            <div className="space-y-2">
-              {features.map((feature, index) => (
-                <BlurFade key={feature.id} delay={0.15 + index * 0.05}>
+              <div className="space-y-2">
+                {features.map((feature) => (
                   <div
+                    key={feature.id}
                     onMouseEnter={() => setActiveFeature(feature)}
-                    className={`group p-5 rounded-xl cursor-pointer border transition-all duration-100 ${
+                    className={`group p-4 rounded-2xl cursor-pointer transition-colors duration-200 ${
                       activeFeature.id === feature.id
-                        ? 'bg-card border-primary/30 shadow-sm'
-                        : 'bg-transparent border-transparent hover:bg-secondary/30'
+                        ? 'bg-[#fceee0]'
+                        : 'hover:bg-gray-100/70'
                     }`}
                   >
                     <div className="flex items-start gap-4">
-                      <div className={`w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-100 ${
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-200 ${
                         activeFeature.id === feature.id
-                          ? 'bg-primary/15'
-                          : 'bg-secondary/50'
+                          ? 'bg-blue-50'
+                          : 'bg-gray-100'
                       }`}>
-                        <feature.icon className={`w-5 h-5 transition-colors duration-100 ${
-                          activeFeature.id === feature.id ? 'text-primary' : 'text-muted-foreground'
+                        <feature.icon className={`w-5 h-5 transition-colors duration-200 ${
+                          activeFeature.id === feature.id ? 'text-blue-500' : 'text-gray-400'
                         }`} />
                       </div>
                       <div className="flex-1">
-                        <h3 className={`font-semibold text-base sm:text-lg transition-colors duration-100 ${
-                          activeFeature.id === feature.id ? 'text-primary' : 'text-foreground'
-                        }`}>
+                        <h3 className="font-semibold text-base text-gray-900">
                           {feature.title}
                         </h3>
                         {activeFeature.id === feature.id && (
-                          <p className="text-sm text-muted-foreground mt-1.5">
+                          <p className="text-sm text-gray-500 leading-relaxed mt-1.5">
                             {feature.description}
                           </p>
                         )}
                       </div>
                     </div>
                   </div>
-                </BlurFade>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
+
+          {/* White frame border around the whole card */}
+          <div className="absolute inset-0 rounded-3xl border-4 border-white/90 pointer-events-none" />
         </div>
       </div>
     </section>

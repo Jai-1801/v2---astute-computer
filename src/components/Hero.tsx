@@ -1,21 +1,7 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform, useMotionTemplate } from 'framer-motion';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { BlurFade } from '@/components/ui/BlurFade';
+import { ArrowRight } from 'lucide-react';
+import LightPillar from '@/components/ui/LightPillar';
 
 export function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end start'],
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const blurValue = useTransform(scrollYProgress, [0, 0.5], [0, 10]);
-  const blurFilter = useMotionTemplate`blur(${blurValue}px)`;
-  const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
-
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
     if (element) {
@@ -24,90 +10,92 @@ export function Hero() {
   };
 
   return (
-    <section
-      ref={ref}
-      className="relative min-h-screen flex items-center overflow-hidden pt-28"
-    >
-      {/* Purple Ambient Glow Background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/15 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-primary/10 rounded-full blur-[100px]" />
-        <div className="absolute inset-0 grid-pattern opacity-20" />
-      </div>
+    <>
+      {/* Fixed Hero Background */}
+      <section className="fixed top-0 left-0 right-0 h-screen flex items-center overflow-hidden bg-[#0a0a0a] z-0">
+        {/* Light Pillar Background Effect */}
+        <div className="absolute inset-0 w-full h-full">
+          <LightPillar
+            topColor="#305CDE"
+            bottomColor="#60A5FA"
+            intensity={1}
+            rotationSpeed={0.3}
+            glowAmount={0.002}
+            pillarWidth={3}
+            pillarHeight={0.4}
+            noiseIntensity={0.5}
+            pillarRotation={25}
+            interactive={false}
+            mixBlendMode="screen"
+            quality="high"
+          />
+        </div>
 
-      {/* Content */}
-      <motion.div
-        style={{ opacity, y, filter: blurFilter }}
-        className="relative z-10 container-custom px-6 sm:px-8"
-      >
-        <div className="max-w-3xl">
-          {/* Announcement Badge */}
-          <BlurFade delay={0.1}>
-            <span className="badge-announcement mb-8 inline-flex">
-              <Sparkles className="h-4 w-4" />
-              <span>Now offering AI-powered solutions</span>
-            </span>
-          </BlurFade>
+        {/* Content */}
+        <div className="relative z-10 w-full px-8 sm:px-12 lg:px-20 xl:px-32 pt-32 sm:pt-16 lg:pt-24">
+          <div className="max-w-3xl">
+            {/* Announcement Badge - 6S Style */}
+            <div className="mb-5 sm:mb-6 inline-flex items-center">
+              <span className="px-3 py-1.5 bg-white text-[#305CDE] text-sm sm:text-base font-semibold rounded-l-md">
+                New
+              </span>
+              <span className="px-4 py-1.5 bg-gray-800/80 backdrop-blur-sm text-white text-sm sm:text-base rounded-r-md">
+                Now offering AI-powered solutions
+              </span>
+            </div>
 
-          {/* Headline */}
-          <BlurFade delay={0.2}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
-              <span className="text-gradient-purple">Modernize</span>
-              <span className="text-foreground"> Your Operations.</span>
+            {/* Headline - 6S Consulting Typography Style */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-[4rem] font-bold tracking-tight leading-[1.1] mb-6 sm:mb-8">
+              <span className="text-white">Strategic Digital Scaling</span>
               <br />
-              <span className="text-muted-foreground">Digitalize Your Legacy.</span>
+              <span className="text-white">Driven by </span>
+              <span className="text-white">AI</span>
             </h1>
-          </BlurFade>
 
-          {/* Subheadline */}
-          <BlurFade delay={0.3}>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-xl mb-10 leading-relaxed">
-              From digital branding to AI-powered document archives.
-              We build the software that powers your business transformation.
+            {/* Subheadline - Bold and bright */}
+            <p className="text-base sm:text-lg md:text-xl lg:text-[1.35rem] text-white font-medium max-w-2xl mb-8 sm:mb-10 leading-[1.6]">
+              We help businesses establish their own dedicated digital transformation hub — 
+              a fully owned capability center designed to deliver technology, 
+              operations, and business functions at scale.
             </p>
-          </BlurFade>
 
-          {/* CTA Buttons */}
-          <BlurFade delay={0.4}>
-            <div className="flex flex-col sm:flex-row items-start gap-4">
+            {/* CTA Button - Blue gradient bg with white text */}
+            <div className="flex flex-col sm:flex-row items-start gap-4 mb-10 sm:mb-12">
               <button
                 onClick={scrollToContact}
-                className="group inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground text-sm font-medium rounded-full button-glow transition-all hover:scale-[1.02]"
+                className="group inline-flex items-center gap-2 pl-6 pr-2 py-2 bg-gradient-to-r from-[#305CDE] to-[#60A5FA] hover:from-[#2548B5] hover:to-[#3B82F6] text-white text-base font-medium rounded-full transition-all"
               >
-                Transform Your Business
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <span>Coffee's on us</span>
+                <span className="flex items-center justify-center w-8 h-8 bg-white/20 rounded-full">
+                  <ArrowRight className="h-4 w-4 text-white transition-transform duration-300 ease-out group-hover:-translate-x-0.5" />
+                </span>
               </button>
-              <Link
-                to="/case-studies"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-transparent border-2 border-border text-foreground text-sm font-medium rounded-full hover:border-primary/50 hover:bg-primary/5 transition-all"
-              >
-                View Our Work
-              </Link>
             </div>
-          </BlurFade>
 
-          {/* Customer Testimonial Row */}
-          <BlurFade delay={0.5}>
-            <div className="mt-12 flex items-center gap-4">
-              <div className="flex -space-x-3">
+            {/* Customer Testimonial Row - Brighter text */}
+            <div className="flex items-center gap-4">
+              <div className="flex -space-x-2">
                 {[1, 2, 3, 4].map((i) => (
                   <div
                     key={i}
-                    className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/50 to-primary border-2 border-background flex items-center justify-center text-xs font-medium text-primary-foreground"
+                    className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-[#305CDE]/60 to-[#305CDE] border-2 border-[#0a0a0a] flex items-center justify-center text-xs sm:text-sm font-medium text-white"
                   >
                     {String.fromCharCode(64 + i)}
                   </div>
                 ))}
               </div>
-              <div className="text-sm">
-                <span className="font-semibold text-foreground">20+</span>
-                <span className="text-muted-foreground"> Satisfied Clients</span>
+              <div className="flex items-center gap-2 text-sm sm:text-base">
+                <span className="text-white/80">→</span>
+                <span className="font-bold text-white">20+</span>
+                <span className="text-white font-medium">Satisfied Customers</span>
               </div>
             </div>
-          </BlurFade>
+          </div>
         </div>
-      </motion.div>
+      </section>
 
-    </section>
+      {/* Spacer to push content below */}
+      <div className="h-screen" />
+    </>
   );
 }

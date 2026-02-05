@@ -40,7 +40,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative border-t border-border/50 bg-card/30">
+    <footer className="relative border-t border-border/50 bg-background">
       <div className="container-custom px-6 sm:px-8 py-12 sm:py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-12">
           {/* Brand */}

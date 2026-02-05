@@ -2,7 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Astute Computer - Tech Noir Design System with Purple Accents
+/* Lenis Smooth Scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Astute Computer - Tech Noir Design System with Royal Blue Accents
    Inspired by The6sConsulting aesthetic */
 
 @layer base {
@@ -17,7 +38,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
 
-    --primary: 263 70% 50%;
+    --primary: 222 74% 53%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 96%;
@@ -26,48 +47,48 @@
     --muted: 0 0% 92%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 263 70% 96%;
-    --accent-foreground: 263 70% 50%;
+    --accent: 222 74% 96%;
+    --accent-foreground: 222 74% 53%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 263 70% 50%;
+    --ring: 222 74% 53%;
 
     --radius: 0.75rem;
 
-    /* Purple Accent System */
-    --purple: 263 70% 50%;
-    --purple-light: 263 70% 60%;
-    --purple-dark: 263 70% 40%;
-    --purple-glow: 263 70% 50%;
+    /* Royal Blue Accent System */
+    --purple: 222 74% 53%;
+    --purple-light: 222 74% 63%;
+    --purple-dark: 222 74% 43%;
+    --purple-glow: 222 74% 53%;
 
     /* Custom Design Tokens */
-    --glow: 263 70% 50%;
+    --glow: 222 74% 53%;
     --glass: 0 0% 100%;
     --glass-border: 0 0% 88%;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(263 70% 50%) 0%, hsl(280 70% 55%) 100%);
-    --gradient-glow: radial-gradient(ellipse at center, hsl(263 70% 50% / 0.15) 0%, transparent 70%);
+    --gradient-primary: linear-gradient(135deg, hsl(222 74% 53%) 0%, hsl(222 74% 63%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(222 74% 53% / 0.15) 0%, transparent 70%);
     --gradient-card: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(0 0% 98%) 100%);
     
     /* Shadows */
-    --shadow-glow: 0 0 60px -15px hsl(263 70% 50% / 0.3);
+    --shadow-glow: 0 0 60px -15px hsl(222 74% 53% / 0.3);
     --shadow-card: 0 25px 50px -12px hsl(0 0% 0% / 0.1);
-    --shadow-button: 0 0 30px hsl(263 70% 50% / 0.3);
+    --shadow-button: 0 0 30px hsl(222 74% 53% / 0.3);
 
     /* Sidebar */
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 0 0% 9%;
-    --sidebar-primary: 263 70% 50%;
+    --sidebar-primary: 222 74% 53%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 263 70% 96%;
-    --sidebar-accent-foreground: 263 70% 50%;
+    --sidebar-accent: 222 74% 96%;
+    --sidebar-accent-foreground: 222 74% 53%;
     --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 263 70% 50%;
+    --sidebar-ring: 222 74% 53%;
   }
 
   .dark {
@@ -81,7 +102,7 @@
     --popover: 0 0% 7%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 263 70% 60%;
+    --primary: 222 74% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 12%;
@@ -90,46 +111,46 @@
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 55%;
 
-    --accent: 263 70% 20%;
-    --accent-foreground: 263 70% 70%;
+    --accent: 222 74% 20%;
+    --accent-foreground: 222 74% 70%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 0 0% 18%;
     --input: 0 0% 18%;
-    --ring: 263 70% 60%;
+    --ring: 222 74% 60%;
 
-    /* Purple Accent System - Dark */
-    --purple: 263 70% 60%;
-    --purple-light: 263 70% 70%;
-    --purple-dark: 263 70% 50%;
-    --purple-glow: 263 70% 60%;
+    /* Royal Blue Accent System - Dark */
+    --purple: 222 74% 60%;
+    --purple-light: 222 74% 70%;
+    --purple-dark: 222 74% 50%;
+    --purple-glow: 222 74% 60%;
 
     /* Custom Design Tokens - Dark */
-    --glow: 263 70% 60%;
+    --glow: 222 74% 60%;
     --glass: 0 0% 10%;
     --glass-border: 0 0% 20%;
     
     /* Gradients - Dark */
-    --gradient-primary: linear-gradient(135deg, hsl(263 70% 60%) 0%, hsl(280 70% 65%) 100%);
-    --gradient-glow: radial-gradient(ellipse at center, hsl(263 70% 60% / 0.2) 0%, transparent 70%);
+    --gradient-primary: linear-gradient(135deg, hsl(222 74% 60%) 0%, hsl(222 74% 70%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(222 74% 60% / 0.2) 0%, transparent 70%);
     --gradient-card: linear-gradient(135deg, hsl(0 0% 8%) 0%, hsl(0 0% 5%) 100%);
     
     /* Shadows - Dark */
-    --shadow-glow: 0 0 60px -15px hsl(263 70% 60% / 0.4);
+    --shadow-glow: 0 0 60px -15px hsl(222 74% 60% / 0.4);
     --shadow-card: 0 25px 50px -12px hsl(0 0% 0% / 0.5);
-    --shadow-button: 0 0 30px hsl(263 70% 60% / 0.4);
+    --shadow-button: 0 0 30px hsl(222 74% 60% / 0.4);
 
     /* Sidebar - Dark */
     --sidebar-background: 0 0% 6%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 263 70% 60%;
+    --sidebar-primary: 222 74% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 263 70% 20%;
-    --sidebar-accent-foreground: 263 70% 70%;
+    --sidebar-accent: 222 74% 20%;
+    --sidebar-accent-foreground: 222 74% 70%;
     --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 263 70% 60%;
+    --sidebar-ring: 222 74% 60%;
   }
 }
 
@@ -179,10 +200,10 @@
     text-shadow: 0 0 40px hsl(var(--purple) / 0.5);
   }
 
-  /* Purple Gradient Text */
+  /* Royal Blue Gradient Text */
   .text-gradient-purple {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--purple)) 0%, hsl(280 70% 65%) 50%, hsl(var(--foreground)) 100%);
+    background-image: linear-gradient(135deg, hsl(var(--purple)) 0%, hsl(222 74% 65%) 50%, hsl(var(--foreground)) 100%);
   }
 
   /* Button Glow */
@@ -252,7 +273,7 @@
     z-index: 1;
   }
 
-  /* Animated underline with purple accent */
+  /* Animated underline with royal blue accent */
   .link-underline {
     @apply relative;
   }
@@ -260,7 +281,7 @@
   .link-underline::after {
     content: "";
     @apply absolute bottom-0 left-0 w-full h-px scale-x-0 origin-right transition-transform duration-300;
-    background: linear-gradient(90deg, hsl(var(--purple)), hsl(280 70% 65%));
+    background: linear-gradient(90deg, hsl(var(--purple)), hsl(222 74% 65%));
   }
 
   .link-underline:hover::after {
@@ -269,10 +290,10 @@
 
   /* Container */
   .container-custom {
-    @apply max-w-7xl mx-auto;
+    @apply max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-12;
   }
 
-  /* Purple ambient glow background */
+  /* Royal blue ambient glow background */
   .ambient-glow {
     position: relative;
   }

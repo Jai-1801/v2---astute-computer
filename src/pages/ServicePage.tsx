@@ -37,19 +37,40 @@ export default function ServicePage() {
 
   if (error || !service) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <main className="container-custom py-20 text-center">
-          <h1 className="text-3xl font-bold mb-4">Service Not Found</h1>
-          <p className="text-muted-foreground mb-8">
-            The service you're looking for doesn't exist or is not available.
-          </p>
-          <Button asChild>
-            <Link to="/#services">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Services
-            </Link>
-          </Button>
+        <main className="flex-1 flex items-center justify-center px-6 py-24 sm:py-32">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-lg"
+          >
+            <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
+              <LucideIcons.FileQuestion className="w-12 h-12 text-primary" />
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
+              Service Not Found
+            </h1>
+            <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
+              The service you're looking for doesn't exist or is not available. 
+              Explore our other digital solutions below.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="lg" className="gap-2 h-12 px-8">
+                <Link to="/#services">
+                  <ArrowLeft className="h-4 w-4" />
+                  Browse Services
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="gap-2 h-12 px-8">
+                <Link to="/contact">
+                  Contact Us
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </motion.div>
         </main>
         <Footer />
       </div>

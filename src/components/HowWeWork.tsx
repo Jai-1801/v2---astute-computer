@@ -1,4 +1,6 @@
 import { BlurFade } from '@/components/ui/BlurFade';
+import DotGrid from '@/components/ui/DotGrid';
+import ReflectiveCard from '@/components/ui/ReflectiveCard';
 
 const steps = [
   {
@@ -25,56 +27,66 @@ const steps = [
 
 export function HowWeWork() {
   return (
-    <section className="relative bg-primary py-20 sm:py-24 md:py-32 overflow-hidden">
-      {/* Subtle pattern overlay */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
-        }} />
-      </div>
+    <section className="relative bg-[#0a1628] py-20 sm:py-24 md:py-32 overflow-hidden">
+      {/* DotGrid Background */}
+      <DotGrid
+        dotSize={3}
+        gap={25}
+        baseColor="#000000"
+        activeColor="#93c5fd"
+        proximity={200}
+        shockRadius={200}
+        shockStrength={3}
+        resistance={750}
+        returnDuration={1.2}
+      />
 
       <div className="container-custom px-6 sm:px-8 relative z-10">
         {/* Header */}
         <div className="mb-12 lg:mb-16">
           <BlurFade>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-3 h-3 rounded-full bg-primary-foreground" />
-              <span className="text-xs sm:text-sm uppercase tracking-widest text-primary-foreground/80 font-medium">
+              <div className="w-3 h-3 rounded-full bg-white" />
+              <span className="text-xs sm:text-sm uppercase tracking-widest text-white/80 font-medium">
                 How We Work?
               </span>
             </div>
           </BlurFade>
           <BlurFade delay={0.1}>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary-foreground max-w-2xl">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white max-w-2xl">
               Strategic Deployment, Accelerated by AI
             </h2>
           </BlurFade>
         </div>
 
         {/* Horizontal line */}
-        <div className="w-full h-px bg-primary-foreground/20 mb-12 lg:mb-16" />
+        <div className="w-full h-px bg-white/20 mb-12 lg:mb-16" />
 
-        {/* Steps Grid */}
+        {/* Steps Grid with Reflective Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, index) => (
             <BlurFade key={step.number} delay={0.15 + index * 0.08}>
-              <div className="h-full p-6 sm:p-8 rounded-2xl border border-dashed border-primary-foreground/30 bg-primary-foreground/5 backdrop-blur-sm hover:border-primary-foreground/50 hover:bg-primary-foreground/10 transition-all duration-150 group">
+              <ReflectiveCard
+                metalness={0.8}
+                roughness={0.3}
+                overlayColor="rgba(10, 22, 40, 0.4)"
+                className="min-h-[360px]"
+              >
                 {/* Number */}
-                <span className="text-3xl sm:text-4xl font-bold text-primary-foreground/60 group-hover:text-primary-foreground transition-colors duration-150">
+                <span className="text-3xl sm:text-4xl font-bold text-cyan-400/80">
                   {step.number}.
                 </span>
                 
                 {/* Title */}
-                <h3 className="text-lg sm:text-xl font-bold text-primary-foreground mt-4 mb-6">
+                <h3 className="text-lg sm:text-xl font-bold text-white mt-4 mb-4">
                   {step.title}
                 </h3>
                 
                 {/* Description */}
-                <p className="text-sm text-primary-foreground/70 leading-relaxed">
+                <p className="text-sm text-white/70 leading-relaxed">
                   {step.description}
                 </p>
-              </div>
+              </ReflectiveCard>
             </BlurFade>
           ))}
         </div>

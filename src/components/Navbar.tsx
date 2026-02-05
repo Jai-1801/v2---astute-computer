@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ThemeToggle } from './ThemeToggle';
 import logo from '@/assets/logo.svg';
 
 const navLinks = [
@@ -65,24 +64,24 @@ export function Navbar() {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50"
+        className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]"
       >
-        <div className="container-custom px-6 sm:px-8 lg:px-12">
-          <div className="flex items-center justify-between py-4">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+          <div className="flex items-center justify-between py-6 sm:py-7 lg:py-8">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 sm:gap-3">
               <img
                 src={logo}
                 alt="Astute Computer"
-                className="h-7 sm:h-8 w-auto dark:invert"
+                className="h-7 sm:h-8 w-auto invert"
               />
-              <span className="hidden sm:block text-base sm:text-lg font-semibold tracking-tight text-foreground">
+              <span className="hidden sm:block text-base sm:text-lg font-semibold tracking-tight text-white">
                 Astute Computer
               </span>
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-6 lg:gap-8">
+            <div className="hidden lg:flex items-center gap-8 lg:gap-10">
               {navLinks.map((link) => (
                 <div
                   key={link.name}
@@ -95,13 +94,13 @@ export function Navbar() {
                       <button
                         onClick={() => handleNavClick(link.href)}
                         className={cn(
-                          "flex items-center gap-1 text-sm font-medium transition-colors link-underline py-1",
-                          isActiveLink(link.href) ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                          "flex items-center gap-1.5 text-[15px] font-normal tracking-wide transition-colors py-1",
+                          isActiveLink(link.href) ? "text-white" : "text-white/80 hover:text-white"
                         )}
                       >
                         {link.name}
                         <ChevronDown className={cn(
-                          "h-3 w-3 transition-transform duration-200",
+                          "h-3.5 w-3.5 transition-transform duration-200",
                           openSubmenu === link.name && "rotate-180"
                         )} />
                       </button>
@@ -138,7 +137,7 @@ export function Navbar() {
                   ) : link.href.startsWith('/#') ? (
                     <button
                       onClick={() => handleNavClick(link.href)}
-                      className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors link-underline py-1"
+                      className="text-[15px] font-normal tracking-wide text-white/80 hover:text-white transition-colors py-1"
                     >
                       {link.name}
                     </button>
@@ -146,8 +145,8 @@ export function Navbar() {
                     <Link
                       to={link.href}
                       className={cn(
-                        "text-sm font-medium transition-colors link-underline py-1",
-                        isActiveLink(link.href) ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                        "text-[15px] font-normal tracking-wide transition-colors py-1",
+                        isActiveLink(link.href) ? "text-white" : "text-white/80 hover:text-white"
                       )}
                     >
                       {link.name}
@@ -159,21 +158,19 @@ export function Navbar() {
 
             {/* Right Side */}
             <div className="hidden lg:flex items-center gap-4">
-              <ThemeToggle />
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 bg-primary text-primary-foreground text-sm font-medium rounded-full hover:opacity-90 transition-all button-glow"
+                className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-[#1a1a1a] border border-white/10 text-white/90 text-[15px] font-normal tracking-wide rounded-full hover:bg-[#252525] transition-all"
               >
-                Get Started
-                <ArrowRight className="h-4 w-4" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                Contact us
               </Link>
             </div>
 
             {/* Mobile Controls */}
             <div className="flex lg:hidden items-center gap-2 sm:gap-3">
-              <ThemeToggle />
               <button
-                className="p-2 text-foreground"
+                className="p-2 text-white"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}

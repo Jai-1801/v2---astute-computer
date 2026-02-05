@@ -6,6 +6,7 @@ import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 import { CoreMission } from '@/components/CoreMission';
 import { WhyPartner } from '@/components/WhyPartner';
+import { WhyIndia } from '@/components/WhyIndia';
 import { StatsBento } from '@/components/StatsBento';
 import { HowWeWork } from '@/components/HowWeWork';
 import { OfferingsSection } from '@/components/OfferingsSection';
@@ -46,14 +47,18 @@ const Index = () => {
         <Navbar />
         <main>
           <Hero />
-          <CoreMission />
-          <WhyPartner />
-          <StatsBento />
-          <HowWeWork />
-          <OfferingsSection />
-          <Portfolio />
-          <BlogSection />
-          <Contact />
+          {/* Content container that covers the fixed hero */}
+          <div className="relative z-10 bg-[#0a0a0a]">
+            <CoreMission />
+            <WhyPartner />
+            <WhyIndia />
+            <StatsBento />
+            <HowWeWork />
+            <OfferingsSection />
+            <Portfolio />
+            <BlogSection />
+            <Contact />
+          </div>
         </main>
         <Footer />
       </div>
