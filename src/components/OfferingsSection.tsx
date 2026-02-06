@@ -62,31 +62,33 @@ export function OfferingsSection() {
 
   const handleScroll = useCallback(() => {
     if (!sectionRef.current) return;
-    
     const rect = sectionRef.current.getBoundingClientRect();
     const sectionHeight = sectionRef.current.offsetHeight;
     const viewportHeight = window.innerHeight;
-    
     const scrollStart = viewportHeight;
     const scrollEnd = -sectionHeight;
     const totalScrollDistance = scrollStart - scrollEnd;
-    
     const progress = Math.max(0, Math.min(1, (scrollStart - rect.top) / totalScrollDistance));
     setScrollProgress(progress);
   }, []);
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+    if (!isMobile) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll();
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [handleScroll, isMobile]);
 
-  const backgroundColor = useMemo(() => interpolateColor(scrollProgress), [scrollProgress]);
+  // Static color for mobile, animated for desktop
+  const backgroundColor = useMemo(() => {
+    return isMobile ? '#305CDE' : interpolateColor(scrollProgress);
+  }, [scrollProgress, isMobile]);
 
   const sectionStyle = useMemo(() => ({
     background: backgroundColor,
-    transition: 'background 0.15s ease-out',
-  }), [backgroundColor]);
+    transition: isMobile ? undefined : 'background 0.15s ease-out',
+  }), [backgroundColor, isMobile]);
 
   return (
     <section ref={sectionRef} className="relative" style={sectionStyle}>
