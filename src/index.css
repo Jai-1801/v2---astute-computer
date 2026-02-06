@@ -160,14 +160,13 @@ html.lenis, html.lenis body {
   }
 
   html {
-    scroll-behavior: smooth;
-    scroll-snap-type: y proximity;
+    /* Removed scroll-behavior and scroll-snap - they conflict with Lenis */
   }
 
-  /* Utility class for snap sections */
+  /* Utility class for snap sections - disabled for Lenis compatibility */
   .snap-section {
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
+    /* scroll-snap-align: start; */
+    /* scroll-snap-stop: normal; */
   }
 
   body {
@@ -347,4 +346,10 @@ html.lenis, html.lenis body {
   .delay-600 { animation-delay: 600ms; }
   .delay-700 { animation-delay: 700ms; }
   .delay-800 { animation-delay: 800ms; }
+
+  /* Content visibility for offscreen sections - improves render performance */
+  .content-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px; /* Estimated height */
+  }
 }

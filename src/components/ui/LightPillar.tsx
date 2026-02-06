@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import './LightPillar.css';
+import { usePerformance } from '@/hooks/usePerformance';
 
 interface LightPillarProps {
   topColor?: string;
@@ -44,6 +45,9 @@ const LightPillar = ({
   const timeRef = useRef(0);
   const [webGLSupported, setWebGLSupported] = useState(true);
 
+  // Performance check - disable shader when lagging
+  const { isLagging, reducedMotion } = usePerformance();
+
   useEffect(() => {
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -51,6 +55,22 @@ const LightPillar = ({
       setWebGLSupported(false);
     }
   }, []);
+
+  // Render static fallback if lagging or reduced motion preferred
+  if (isLagging || reducedMotion || !webGLSupported) {
+    return (
+      <div className={`light-pillar-container ${className}`}>
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(to top, ${bottomColor}, ${topColor})`,
+            opacity: 0.3,
+            filter: 'blur(40px)'
+          }}
+        />
+      </div>
+    );
+  }
 
   useEffect(() => {
     if (!containerRef.current || !webGLSupported) return;
@@ -72,14 +92,14 @@ const LightPillar = ({
     if (isMobile && quality !== 'low') effectiveQuality = 'low';
 
     const qualitySettings = {
-      low: { iterations: 24, waveIterations: 1, pixelRatio: 0.5, precision: 'mediump', stepMultiplier: 1.5 },
-      medium: { iterations: 40, waveIterations: 2, pixelRatio: 0.65, precision: 'mediump', stepMultiplier: 1.2 },
+      low: { iterations: 16, waveIterations: 1, pixelRatio: 0.35, precision: 'mediump', stepMultiplier: 1.8 },
+      medium: { iterations: 32, waveIterations: 2, pixelRatio: 0.5, precision: 'mediump', stepMultiplier: 1.4 },
       high: {
-        iterations: 80,
-        waveIterations: 4,
-        pixelRatio: Math.min(window.devicePixelRatio, 2),
+        iterations: 60, // Reduced from 80 for better performance
+        waveIterations: 3, // Reduced from 4
+        pixelRatio: Math.min(window.devicePixelRatio, 1.5), // Cap at 1.5 instead of 2
         precision: 'highp',
-        stepMultiplier: 1.0
+        stepMultiplier: 1.2 // Increased from 1.0 for faster stepping
       }
     };
 

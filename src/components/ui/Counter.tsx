@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState } from 'react';
-import { useMotionValue, useSpring, motion } from 'framer-motion';
 
 interface CounterProps {
   value: number;
@@ -9,23 +8,18 @@ interface CounterProps {
   duration?: number;
 }
 
+// PERFORMANCE FIX: Replaced framer-motion spring with pure JS animation
+// This eliminates the spring library overhead and subscription callbacks
 export function Counter({
   value,
   suffix = '',
   prefix = '',
   className = '',
-  duration = 2,
+  duration = 1.5, // Reduced default duration
 }: CounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
-  const motionValue = useMotionValue(0);
-  const springValue = useSpring(motionValue, {
-    damping: 60,
-    stiffness: 100,
-    duration: duration * 1000,
-  });
 
-  // Custom intersection observer that works reliably on mobile
   useEffect(() => {
     if (!ref.current || hasAnimated) return;
 
@@ -34,40 +28,45 @@ export function Counter({
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasAnimated) {
             setHasAnimated(true);
-            motionValue.set(value);
+            animateValue(ref.current!, 0, value, duration * 1000);
           }
         });
       },
-      { 
-        threshold: 0.1,
-        rootMargin: '0px' // No negative margin - triggers as soon as visible
-      }
+      { threshold: 0.1 }
     );
 
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [hasAnimated, motionValue, value]);
+  }, [hasAnimated, value, duration]);
 
-  useEffect(() => {
-    const unsubscribe = springValue.on('change', (latest) => {
-      if (ref.current) {
-        const formatted = latest >= 1000 
-          ? `${(latest / 1000).toFixed(1)}K`
-          : latest.toFixed(0);
-        ref.current.textContent = `${prefix}${formatted}${suffix}`;
+  // Pure JS eased animation - no library overhead
+  function animateValue(element: HTMLSpanElement, start: number, end: number, durationMs: number) {
+    const startTime = performance.now();
+
+    function update(currentTime: number) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / durationMs, 1);
+
+      // Ease out cubic for smooth deceleration
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(start + (end - start) * eased);
+
+      const formatted = current >= 1000
+        ? `${(current / 1000).toFixed(1)}K`
+        : current.toString();
+      element.textContent = `${prefix}${formatted}${suffix}`;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
       }
-    });
-    return unsubscribe;
-  }, [springValue, suffix, prefix]);
+    }
+
+    requestAnimationFrame(update);
+  }
 
   return (
-    <motion.span 
-      ref={ref} 
-      className={className}
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 1 }}
-    >
+    <span ref={ref} className={className}>
       {prefix}0{suffix}
-    </motion.span>
+    </span>
   );
 }

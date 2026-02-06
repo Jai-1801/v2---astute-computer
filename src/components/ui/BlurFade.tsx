@@ -7,30 +7,29 @@ interface BlurFadeProps {
   delay?: number;
   duration?: number;
   yOffset?: number;
-  blur?: string;
 }
 
+// PERFORMANCE FIX: Removed blur filter animation - filters are expensive
+// Now just animates opacity and transform (GPU accelerated)
 export function BlurFade({
   children,
   className = '',
   delay = 0,
-  duration = 0.4,
-  yOffset = 12,
-  blur = '6px',
+  duration = 0.3, // Reduced from 0.4
+  yOffset = 8, // Reduced from 12
 }: BlurFadeProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const isInView = useInView(ref, { once: true, margin: '-30px' }); // Reduced margin
 
   const variants: Variants = {
     hidden: {
       opacity: 0,
       y: yOffset,
-      filter: `blur(${blur})`,
+      // Removed blur filter - causes layout recalculation
     },
     visible: {
       opacity: 1,
       y: 0,
-      filter: 'blur(0px)',
       transition: {
         duration,
         delay,
@@ -46,6 +45,7 @@ export function BlurFade({
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
       className={className}
+      style={{ willChange: 'opacity, transform' }}
     >
       {children}
     </motion.div>

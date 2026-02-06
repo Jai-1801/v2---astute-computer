@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { motion, useScroll, useTransform, useInView, useMotionTemplate } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { useRef, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
@@ -15,11 +15,11 @@ import { siteConfig } from '@/lib/seo';
 function AnimatedCounter({ value, suffix = '' }: { value: string; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true });
-  
+
   const numericValue = parseFloat(value.replace(/[^0-9.]/g, ''));
   const hasX = value.includes('x');
   const prefix = value.match(/^[^0-9]*/)?.[0] || '';
-  
+
   return (
     <span ref={ref} className="tabular-nums">
       {isInView ? (
@@ -38,7 +38,7 @@ function AnimatedCounter({ value, suffix = '' }: { value: string; suffix?: strin
 // Word-by-word reveal component
 function WordReveal({ text, className = '' }: { text: string; className?: string }) {
   const words = text.split(' ');
-  
+
   return (
     <span className={className}>
       {words.map((word, i) => (
@@ -46,8 +46,8 @@ function WordReveal({ text, className = '' }: { text: string; className?: string
           key={i}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ 
-            duration: 0.5, 
+          transition={{
+            duration: 0.5,
             delay: i * 0.08,
             ease: [0.25, 0.46, 0.45, 0.94]
           }}
@@ -63,7 +63,7 @@ function WordReveal({ text, className = '' }: { text: string; className?: string
 // 3D tilt card component
 function TiltCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
-  
+
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
@@ -73,15 +73,15 @@ function TiltCard({ children, className = '' }: { children: React.ReactNode; cla
     const centerY = rect.height / 2;
     const rotateX = (y - centerY) / 20;
     const rotateY = (centerX - x) / 20;
-    
+
     ref.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
   };
-  
+
   const handleMouseLeave = () => {
     if (!ref.current) return;
     ref.current.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
   };
-  
+
   return (
     <div
       ref={ref}
@@ -99,22 +99,21 @@ export default function IndustryPage() {
   const navigate = useNavigate();
   const industry = getIndustryBySlug(slug || '');
   const { data: caseStudies = [] } = useCaseStudiesByIndustry(slug);
-  
+
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start']
   });
-  
+
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
-  const heroBlurValue = useTransform(scrollYProgress, [0, 0.5], [0, 10]);
-  const heroBlurFilter = useMotionTemplate`blur(${heroBlurValue}px)`;
-  
+  // Removed blur filter - causes jank on every scroll tick
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
-  
+
   if (!industry) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -127,9 +126,9 @@ export default function IndustryPage() {
       </div>
     );
   }
-  
+
   const Icon = industry.icon;
-  
+
   return (
     <>
       <SEOHead
@@ -137,10 +136,10 @@ export default function IndustryPage() {
         description={industry.metaDescription}
         canonical={`${siteConfig.url}/industries/${industry.slug}`}
       />
-      
+
       <div className="min-h-screen bg-background">
         <Navbar />
-        
+
         {/* Back Button */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -158,7 +157,7 @@ export default function IndustryPage() {
             <span className="hidden sm:inline">Back</span>
           </Button>
         </motion.div>
-        
+
         {/* Hero Section */}
         <motion.section
           ref={heroRef}
@@ -168,7 +167,7 @@ export default function IndustryPage() {
           {/* Animated background orbs */}
           <div className="absolute inset-0 overflow-hidden">
             <motion.div
-              animate={{ 
+              animate={{
                 x: [0, 30, 0],
                 y: [0, -20, 0],
                 scale: [1, 1.1, 1]
@@ -177,7 +176,7 @@ export default function IndustryPage() {
               className="absolute top-1/4 left-1/4 w-96 h-96 bg-foreground/5 rounded-full blur-3xl"
             />
             <motion.div
-              animate={{ 
+              animate={{
                 x: [0, -20, 0],
                 y: [0, 30, 0],
                 scale: [1, 1.2, 1]
@@ -186,14 +185,11 @@ export default function IndustryPage() {
               className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-foreground/3 rounded-full blur-3xl"
             />
           </div>
-          
+
           {/* Grid pattern */}
           <div className="absolute inset-0 grid-pattern opacity-10" />
-          
-          <motion.div
-            style={{ filter: heroBlurFilter }}
-            className="container-custom relative z-10 text-center"
-          >
+
+          <div className="container-custom relative z-10 text-center">
             {/* Floating icon */}
             <motion.div
               initial={{ opacity: 0, scale: 0.5 }}
@@ -209,7 +205,7 @@ export default function IndustryPage() {
                 <Icon className="w-12 h-12 text-foreground" />
               </motion.div>
             </motion.div>
-            
+
             {/* Tagline */}
             <motion.span
               initial={{ opacity: 0, y: 20 }}
@@ -219,12 +215,12 @@ export default function IndustryPage() {
             >
               {industry.tagline}
             </motion.span>
-            
+
             {/* Title with word reveal */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-6">
               <WordReveal text={`${industry.title} Solutions`} />
             </h1>
-            
+
             {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -234,7 +230,7 @@ export default function IndustryPage() {
             >
               {industry.heroDescription}
             </motion.p>
-            
+
             {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -242,22 +238,22 @@ export default function IndustryPage() {
               transition={{ delay: 1, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <MagneticButton 
-                variant="primary" 
+              <MagneticButton
+                variant="primary"
                 onClick={() => navigate('/contact')}
               >
                 Start Your Project
                 <ArrowRight className="w-4 h-4 ml-2" />
               </MagneticButton>
-              <MagneticButton 
-                variant="secondary" 
+              <MagneticButton
+                variant="secondary"
                 onClick={() => document.getElementById('problems')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Explore Solutions
               </MagneticButton>
             </motion.div>
-          </motion.div>
-          
+          </div>
+
           {/* Scroll indicator */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -278,18 +274,18 @@ export default function IndustryPage() {
             </motion.div>
           </motion.div>
         </motion.section>
-        
+
         {/* Problems Section */}
         <section id="problems" className="section-padding relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
-          
+
           <div className="container-custom relative z-10">
             <SectionHeader
               label="The Challenge"
               title="Industry Pain Points"
               description="Common obstacles that prevent organizations from reaching their full potential."
             />
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
               {industry.problems.map((problem, index) => (
                 <motion.div
@@ -311,7 +307,7 @@ export default function IndustryPage() {
                     <span className="w-2 h-2 rounded-full bg-foreground/50" />
                     {problem.impact}
                   </div>
-                  
+
                   {/* Corner accent */}
                   <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute top-0 right-0 w-px h-12 bg-gradient-to-b from-foreground/30 to-transparent" />
@@ -322,7 +318,7 @@ export default function IndustryPage() {
             </div>
           </div>
         </section>
-        
+
         {/* Solutions Section */}
         <section className="section-padding relative overflow-hidden">
           <div className="container-custom relative z-10">
@@ -331,7 +327,7 @@ export default function IndustryPage() {
               title="Tailored Solutions"
               description="Proven methodologies designed specifically for your industry's unique requirements."
             />
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-16">
               {industry.solutions.map((solution, index) => (
                 <TiltCard key={solution.title}>
@@ -371,11 +367,11 @@ export default function IndustryPage() {
             </div>
           </div>
         </section>
-        
+
         {/* Stats Section */}
         <section className="section-padding relative overflow-hidden bg-card/30">
           <div className="absolute inset-0 grid-pattern opacity-5" />
-          
+
           <div className="container-custom relative z-10">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {industry.stats.map((stat, index) => (
@@ -396,7 +392,7 @@ export default function IndustryPage() {
             </div>
           </div>
         </section>
-        
+
         {/* Case Studies Section */}
         {caseStudies.length > 0 && (
           <section className="section-padding relative overflow-hidden">
@@ -406,7 +402,7 @@ export default function IndustryPage() {
                 title="Related Case Studies"
                 description={`See how we've helped ${industry.title.toLowerCase()} organizations transform.`}
               />
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
                 {caseStudies.slice(0, 6).map((study, index) => (
                   <motion.div
@@ -453,7 +449,7 @@ export default function IndustryPage() {
                   </motion.div>
                 ))}
               </div>
-              
+
               {caseStudies.length > 6 && (
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -473,14 +469,14 @@ export default function IndustryPage() {
             </div>
           </section>
         )}
-        
+
         {/* CTA Section */}
         <section className="section-padding relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-card/50 to-transparent" />
-          
+
           {/* Animated particles */}
           <div className="absolute inset-0 overflow-hidden">
-            {[...Array(20)].map((_, i) => (
+            {[...Array(8)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-1 h-1 bg-foreground/20 rounded-full"
@@ -500,7 +496,7 @@ export default function IndustryPage() {
               />
             ))}
           </div>
-          
+
           <div className="container-custom relative z-10 text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -517,12 +513,12 @@ export default function IndustryPage() {
                 <span className="text-muted-foreground">{industry.title} Solution</span>
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-                Every successful transformation starts with a conversation. 
+                Every successful transformation starts with a conversation.
                 Tell us about your challenges and goals.
               </p>
-              
-              <MagneticButton 
-                variant="primary" 
+
+              <MagneticButton
+                variant="primary"
                 onClick={() => navigate('/contact')}
               >
                 Schedule a Consultation
@@ -531,7 +527,7 @@ export default function IndustryPage() {
             </motion.div>
           </div>
         </section>
-        
+
         <Footer />
       </div>
     </>
@@ -539,13 +535,13 @@ export default function IndustryPage() {
 }
 
 // Section header component
-function SectionHeader({ 
-  label, 
-  title, 
-  description 
-}: { 
-  label: string; 
-  title: string; 
+function SectionHeader({
+  label,
+  title,
+  description
+}: {
+  label: string;
+  title: string;
   description: string;
 }) {
   return (

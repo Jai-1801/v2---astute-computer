@@ -28,13 +28,26 @@ export function Navbar() {
   const location = useLocation();
 
   useEffect(() => {
+    let lastScrollY = 0;
+    let ticking = false;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const scrolled = window.scrollY > 50;
+        // Only update state if it actually changed
+        if (scrolled !== isScrolled) {
+          setIsScrolled(scrolled);
+        }
+        ticking = false;
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isScrolled]);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -43,7 +56,7 @@ export function Navbar() {
 
   const handleNavClick = (href: string) => {
     setIsMobileMenuOpen(false);
-    
+
     if (href.startsWith('/#')) {
       if (location.pathname === '/') {
         const element = document.querySelector(href.substring(1));
