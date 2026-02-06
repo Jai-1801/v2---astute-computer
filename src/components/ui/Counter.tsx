@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react';
-import { useInView, useMotionValue, useSpring, motion } from 'framer-motion';
+import { useRef, useEffect, useState } from 'react';
+import { useMotionValue, useSpring, motion } from 'framer-motion';
 
 interface CounterProps {
   value: number;
@@ -17,19 +17,36 @@ export function Counter({
   duration = 2,
 }: CounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
   const motionValue = useMotionValue(0);
   const springValue = useSpring(motionValue, {
     damping: 60,
     stiffness: 100,
     duration: duration * 1000,
   });
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
+  // Custom intersection observer that works reliably on mobile
   useEffect(() => {
-    if (isInView) {
-      motionValue.set(value);
-    }
-  }, [motionValue, isInView, value]);
+    if (!ref.current || hasAnimated) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+            motionValue.set(value);
+          }
+        });
+      },
+      { 
+        threshold: 0.1,
+        rootMargin: '0px' // No negative margin - triggers as soon as visible
+      }
+    );
+
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [hasAnimated, motionValue, value]);
 
   useEffect(() => {
     const unsubscribe = springValue.on('change', (latest) => {
@@ -47,9 +64,8 @@ export function Counter({
     <motion.span 
       ref={ref} 
       className={className}
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
     >
       {prefix}0{suffix}
     </motion.span>

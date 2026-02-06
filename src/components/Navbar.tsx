@@ -191,90 +191,125 @@ export function Navbar() {
             className="fixed inset-0 z-40 lg:hidden"
           >
             <div
-              className="absolute inset-0 bg-background/98 backdrop-blur-xl"
+              className="absolute inset-0 bg-[#0a0a0a]"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
-              className="relative flex flex-col items-center justify-center h-full gap-6 sm:gap-8"
+              className="relative flex flex-col h-full px-6 pt-24 pb-8"
               initial="closed"
               animate="open"
               exit="closed"
               variants={{
-                open: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
-                closed: { transition: { staggerChildren: 0.04, staggerDirection: -1 } },
+                open: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } },
+                closed: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
               }}
             >
-              {navLinks.map((link) => (
-                <motion.div
-                  key={link.name}
-                  variants={{
-                    open: { opacity: 1, y: 0 },
-                    closed: { opacity: 0, y: 16 },
-                  }}
-                  className="flex flex-col items-center"
-                >
-                  {link.submenu ? (
-                    <>
+              {/* Navigation Links */}
+              <div className="flex-1 flex flex-col gap-1">
+                {navLinks.map((link) => (
+                  <motion.div
+                    key={link.name}
+                    variants={{
+                      open: { opacity: 1, x: 0 },
+                      closed: { opacity: 0, x: -20 },
+                    }}
+                    className="border-b border-white/10"
+                  >
+                    {link.submenu ? (
+                      <>
+                        <button
+                          onClick={() => setOpenSubmenu(openSubmenu === link.name ? null : link.name)}
+                          className="w-full flex items-center justify-between py-4 text-xl font-medium text-white"
+                        >
+                          {link.name}
+                          <ChevronDown className={cn("h-5 w-5 text-white/60 transition-transform duration-300", openSubmenu === link.name && "rotate-180")} />
+                        </button>
+                        <AnimatePresence>
+                          {openSubmenu === link.name && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pb-4 pl-4 flex flex-col gap-3">
+                                {link.submenu.map((sublink) => (
+                                  <Link
+                                    key={sublink.name}
+                                    to={sublink.href}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="flex items-center gap-3 text-base text-white/70 hover:text-primary transition-colors"
+                                  >
+                                    <ArrowRight className="h-4 w-4 text-primary" />
+                                    {sublink.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </>
+                    ) : link.href.startsWith('/#') ? (
                       <button
-                        onClick={() => setOpenSubmenu(openSubmenu === link.name ? null : link.name)}
-                        className="text-2xl sm:text-3xl font-light text-foreground flex items-center gap-2"
+                        onClick={() => handleNavClick(link.href)}
+                        className="w-full text-left py-4 text-xl font-medium text-white hover:text-primary transition-colors"
                       >
                         {link.name}
-                        <ChevronDown className={cn("h-5 w-5 sm:h-6 sm:w-6 transition-transform", openSubmenu === link.name && "rotate-180")} />
                       </button>
-                      <AnimatePresence>
-                        {openSubmenu === link.name && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="flex flex-col items-center gap-3 mt-4"
-                          >
-                            {link.submenu.map((sublink) => (
-                              <Link
-                                key={sublink.name}
-                                to={sublink.href}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="text-base sm:text-lg text-muted-foreground hover:text-primary transition-colors"
-                              >
-                                {sublink.name}
-                              </Link>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </>
-                  ) : link.href.startsWith('/#') ? (
-                    <button
-                      onClick={() => handleNavClick(link.href)}
-                      className="text-2xl sm:text-3xl font-light text-foreground hover:text-primary transition-colors"
-                    >
-                      {link.name}
-                    </button>
-                  ) : (
-                    <Link
-                      to={link.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-2xl sm:text-3xl font-light text-foreground hover:text-primary transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  )}
-                </motion.div>
-              ))}
+                    ) : (
+                      <Link
+                        to={link.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block py-4 text-xl font-medium text-white hover:text-primary transition-colors"
+                      >
+                        {link.name}
+                      </Link>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Bottom Section */}
               <motion.div
                 variants={{
                   open: { opacity: 1, y: 0 },
-                  closed: { opacity: 0, y: 16 },
+                  closed: { opacity: 0, y: 20 },
                 }}
+                className="mt-auto pt-6 border-t border-white/10"
               >
+                {/* Contact Info */}
+                <div className="mb-6">
+                  <p className="text-xs uppercase tracking-widest text-white/40 mb-3">Get in touch</p>
+                  <a href="mailto:hello@astutecomputer.com" className="block text-white/80 hover:text-primary transition-colors mb-2">
+                    hello@astutecomputer.com
+                  </a>
+                  <a href="tel:+919876543210" className="block text-white/80 hover:text-primary transition-colors">
+                    +91 98765 43210
+                  </a>
+                </div>
+
+                {/* Social Links */}
+                <div className="flex items-center gap-4 mb-6">
+                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary/50 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                  </a>
+                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary/50 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+                  </a>
+                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary/50 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                  </a>
+                </div>
+
+                {/* CTA Button */}
                 <Link
                   to="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="mt-4 sm:mt-6 inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-primary text-primary-foreground text-base sm:text-lg font-medium rounded-full button-glow"
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-primary text-primary-foreground text-base font-medium rounded-full"
                 >
-                  Get Started
-                  <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
+                  Start a Project
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
               </motion.div>
             </motion.div>

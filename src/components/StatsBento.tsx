@@ -36,9 +36,46 @@ export function StatsBento() {
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+          {/* Time Reduction Card - Show first on mobile */}
+          <div className="bg-card border border-border/50 rounded-2xl p-6 sm:p-8 sm:col-span-2 lg:col-span-1 order-1">
+            <div className="flex items-baseline gap-1 mb-4">
+              <Counter 
+                value={40} 
+                className="text-5xl sm:text-6xl font-bold text-foreground" 
+              />
+              <span className="text-5xl sm:text-6xl font-bold text-foreground">%</span>
+            </div>
+            <p className="text-xl sm:text-2xl font-bold text-foreground mb-4">
+              time reduction in Digital Setup
+            </p>
+            <p className="text-sm text-muted-foreground">
+              AI-accelerated capabilities for setup and world-class automation solutions
+            </p>
+          </div>
+
+          {/* Stats Cards - Important stats visible on mobile */}
+          {stats.slice(0, 2).map((stat, index) => (
+            <div key={stat.label} className={`bg-primary rounded-2xl p-6 sm:p-8 text-primary-foreground relative overflow-hidden order-${index + 2}`}>
+              <div className="absolute right-0 top-0 w-2 h-full bg-gradient-to-b from-primary-foreground/20 to-transparent" />
+              <div className="flex items-baseline gap-1 mb-2">
+                <Counter 
+                  value={stat.value} 
+                  className="text-5xl sm:text-6xl font-bold" 
+                />
+                <span className="text-5xl sm:text-6xl font-bold">{stat.suffix}</span>
+              </div>
+              <p className="text-xs uppercase tracking-wider font-medium opacity-90">
+                {stat.label}
+              </p>
+              <p className="text-xs uppercase tracking-wider opacity-70">
+                {stat.sublabel}
+              </p>
+            </div>
+          ))}
+
           {/* Skyscrapers Image */}
-          <div className="aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden">
+          <div className="aspect-[4/3] sm:aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden order-4">
             <img
               src={skyscrapersImg}
               alt="Modern business district"
@@ -48,7 +85,7 @@ export function StatsBento() {
           </div>
 
           {/* AI Card - Fixed color styling */}
-          <div className="aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden relative group bg-card">
+          <div className="aspect-[4/3] sm:aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden relative group bg-card order-5">
             <img
               src={aiPurpleImg}
               alt="AI Technology"
@@ -57,7 +94,7 @@ export function StatsBento() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-              <div className="inline-flex items-center gap-2 mb-2">
+              <div className="inline-flex items-center gap-2 mb-2 flex-wrap">
                 <span className="px-2 py-0.5 text-[10px] uppercase tracking-wider font-bold bg-primary/20 text-primary rounded">New</span>
                 <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Dewdrop AI is your AI Consultant</span>
               </div>
@@ -69,7 +106,7 @@ export function StatsBento() {
           </div>
 
           {/* Stats Column */}
-          <div className="space-y-5 lg:space-y-6">
+          <div className="space-y-4 sm:space-y-5 lg:space-y-6 order-6">
             {/* Stat Card 1 */}
             <div className="bg-card border border-border/50 rounded-2xl p-6 sm:p-8">
               <p className="text-sm text-muted-foreground mb-3">
@@ -97,43 +134,6 @@ export function StatsBento() {
               />
             </div>
           </div>
-
-          {/* Time Reduction Card */}
-          <div className="bg-card border border-border/50 rounded-2xl p-6 sm:p-8">
-            <div className="flex items-baseline gap-1 mb-4">
-              <Counter 
-                value={40} 
-                className="text-5xl sm:text-6xl font-bold text-foreground" 
-              />
-              <span className="text-5xl sm:text-6xl font-bold text-foreground">%</span>
-            </div>
-            <p className="text-xl sm:text-2xl font-bold text-foreground mb-4">
-              time reduction in Digital Setup
-            </p>
-            <p className="text-sm text-muted-foreground">
-              AI-accelerated capabilities for setup and world-class automation solutions
-            </p>
-          </div>
-
-          {/* Stats Cards Row */}
-          {stats.slice(0, 2).map((stat) => (
-            <div key={stat.label} className="bg-primary rounded-2xl p-6 sm:p-8 text-primary-foreground relative overflow-hidden">
-              <div className="absolute right-0 top-0 w-2 h-full bg-gradient-to-b from-primary-foreground/20 to-transparent" />
-              <div className="flex items-baseline gap-1 mb-2">
-                <Counter 
-                  value={stat.value} 
-                  className="text-5xl sm:text-6xl font-bold" 
-                />
-                <span className="text-5xl sm:text-6xl font-bold">{stat.suffix}</span>
-              </div>
-              <p className="text-xs uppercase tracking-wider font-medium opacity-90">
-                {stat.label}
-              </p>
-              <p className="text-xs uppercase tracking-wider opacity-70">
-                {stat.sublabel}
-              </p>
-            </div>
-          ))}
         </div>
       </div>
     </section>
