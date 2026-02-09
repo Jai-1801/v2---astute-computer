@@ -84,12 +84,12 @@ const LightPillar = ({
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     cameraRef.current = camera;
 
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isMobile = window.innerWidth <= 768;
     const isLowEndDevice = isMobile || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
 
     let effectiveQuality = quality;
     if (isLowEndDevice && quality === 'high') effectiveQuality = 'medium';
-    if (isMobile && quality !== 'low') effectiveQuality = 'low';
+    if (isMobile) effectiveQuality = 'low';
 
     const qualitySettings = {
       low: { iterations: 16, waveIterations: 1, pixelRatio: 0.35, precision: 'mediump', stepMultiplier: 1.8 },
