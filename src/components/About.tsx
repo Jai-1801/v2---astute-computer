@@ -62,7 +62,7 @@ export function About() {
             </span>
           </BlurFade>
           <BlurFade delay={0.1}>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-5 sm:mb-6 leading-[1.15]">
               We Build Digital
               <br />
               <span className="text-gradient-purple">Excellence</span>

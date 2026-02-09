@@ -123,13 +123,14 @@ export function FloatingGrid() {
   }
 
   return (
-    <div ref={containerRef} className="absolute inset-0 z-0">
+    <div ref={containerRef} className="absolute inset-0 z-0 pointer-events-none">
       {isVisible && (
         <Canvas
           camera={{ position: [0, 0, 20], fov: 60 }}
           dpr={[1, 1.5]}
           gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
           frameloop={isVisible ? 'always' : 'never'}
+          style={{ pointerEvents: 'none' }}
         >
           <Scene />
         </Canvas>

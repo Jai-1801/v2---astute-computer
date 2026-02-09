@@ -63,17 +63,17 @@ export function WhyPartner() {
       <div className="relative z-10 container-custom px-6 sm:px-8 lg:px-12">
         {/* Card frame with transparent left cutout */}
         <div className="relative max-w-5xl mx-auto">
-          <div className="grid lg:grid-cols-2 min-h-[520px]">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 min-h-[420px] md:min-h-[520px]">
             {/* Left: Transparent cutout - just shows background through */}
-            <div className="relative h-64 lg:h-auto rounded-l-3xl overflow-hidden border-4 border-r-0 border-white/90 lg:border-r-0">
+            <div className="relative h-48 sm:h-64 md:h-auto rounded-t-3xl md:rounded-l-3xl md:rounded-tr-none overflow-hidden border-4 border-b-0 md:border-b-4 md:border-r-0 border-white/90">
               {/* This is just a frame - background shows through */}
             </div>
 
             {/* Right: White/Cream panel with content */}
-            <div className="bg-[#faf8f5] rounded-r-3xl lg:rounded-l-none rounded-l-3xl lg:rounded-tr-3xl lg:rounded-br-3xl p-8 sm:p-10 lg:p-12 border-4 border-white/90">
-              <div className="flex items-center gap-3 mb-8">
+            <div className="bg-[#faf8f5] rounded-b-3xl md:rounded-r-3xl md:rounded-bl-none p-6 sm:p-8 md:p-10 lg:p-12 border-4 border-t-0 md:border-t-4 md:border-l-0 border-white/90">
+              <div className="flex items-center gap-3 mb-6 md:mb-8">
                 <div className="w-2.5 h-2.5 rounded-full bg-pink-500" />
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">
                   Why Partner With Us?
                 </h2>
               </div>

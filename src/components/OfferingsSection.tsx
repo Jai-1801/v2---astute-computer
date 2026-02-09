@@ -49,16 +49,16 @@ export function OfferingsSection() {
   return (
     <section className="relative" style={sectionStyle}>
       <div className="container-custom px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
-        <div className="flex flex-col lg:grid lg:grid-cols-[280px_1fr] xl:grid-cols-[350px_1fr] gap-10 lg:gap-16 xl:gap-24">
+        <div className="flex flex-col md:grid md:grid-cols-[240px_1fr] lg:grid-cols-[280px_1fr] xl:grid-cols-[350px_1fr] gap-8 md:gap-12 lg:gap-16 xl:gap-24">
           {/* Left - Sticky Title */}
-          <div className="lg:sticky lg:top-28 self-start mb-8 lg:mb-0 h-fit">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.05]">
+          <div className="md:sticky md:top-28 self-start mb-6 md:mb-0 h-fit">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.15]">
               Our<br />Offerings
             </h2>
           </div>
 
           {/* Right - Stacking Cards (now enabled on mobile too!) */}
-          <div className="relative max-w-2xl mx-auto">
+          <div className="relative w-full max-w-2xl mx-auto md:mx-0">
             {offerings.map((offering, index) => (
               <div
                 key={offering.slug}

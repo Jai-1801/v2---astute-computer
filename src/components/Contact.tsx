@@ -155,8 +155,8 @@ export function Contact() {
 
   return (
     <section id="contact" className="relative overflow-hidden py-20 sm:py-24 md:py-32">
-      <div className="absolute inset-0 grid-pattern opacity-10" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px]" />
+      <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none" />
 
       <div ref={ref} className="container-custom relative z-10 px-6 sm:px-8">
         {/* Section Header */}
@@ -167,7 +167,7 @@ export function Contact() {
             </span>
           </BlurFade>
           <BlurFade delay={0.1}>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-5 sm:mb-6 leading-[1.15]">
               Let's Build Something
               <br />
               <span className="text-gradient-purple">Amazing Together</span>

@@ -48,7 +48,7 @@ export function BlogSection() {
               </div>
             </BlurFade>
             <BlurFade delay={0.1}>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-[1.15]">
                 Latest from Our Blog
               </h2>
             </BlurFade>
@@ -65,7 +65,7 @@ export function BlogSection() {
         </div>
 
         {/* Blog Grid - Better bento layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
           {blogPosts.map((post, index) => (
             <BlurFade key={post.id} delay={0.2 + index * 0.08}>
               <article className="group cursor-pointer">

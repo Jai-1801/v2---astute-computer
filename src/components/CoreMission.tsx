@@ -31,9 +31,9 @@ export function CoreMission() {
               <TiltedCard
                 imageSrc={indiaGateImg}
                 altText="Digital transformation in India"
-                containerHeight="400px"
+                containerHeight="350px"
                 containerWidth="100%"
-                imageHeight="400px"
+                imageHeight="350px"
                 imageWidth="100%"
                 rotateAmplitude={12}
                 scaleOnHover={1.02}
@@ -89,7 +89,7 @@ export function CoreMission() {
 
             {/* Highlights grid */}
             <BlurFade delay={0.4}>
-              <div className="grid grid-cols-2 gap-4 pt-4">
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-4 pt-4">
                 {highlights.map((item, index) => (
                   <div 
                     key={index}

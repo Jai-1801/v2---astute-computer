@@ -22,7 +22,7 @@ export function StatsBento() {
                 The Glorious Purpose
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-[1.15]">
               Why Chennai?
             </h2>
             <p className="text-muted-foreground mt-4 text-base sm:text-lg lg:text-xl">
@@ -36,17 +36,17 @@ export function StatsBento() {
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
           {/* Time Reduction Card - Show first on mobile */}
-          <div className="bg-card border border-border/50 rounded-2xl p-6 sm:p-8 sm:col-span-2 lg:col-span-1 order-1">
+          <div className="bg-card border border-border/50 rounded-2xl p-6 sm:p-8 sm:col-span-2 md:col-span-2 lg:col-span-1 order-1">
             <div className="flex items-baseline gap-1 mb-4">
               <Counter 
                 value={40} 
-                className="text-5xl sm:text-6xl font-bold text-foreground" 
+                className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground" 
               />
-              <span className="text-5xl sm:text-6xl font-bold text-foreground">%</span>
+              <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground">%</span>
             </div>
-            <p className="text-xl sm:text-2xl font-bold text-foreground mb-4">
+            <p className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-4">
               time reduction in Digital Setup
             </p>
             <p className="text-sm text-muted-foreground">
@@ -61,9 +61,9 @@ export function StatsBento() {
               <div className="flex items-baseline gap-1 mb-2">
                 <Counter 
                   value={stat.value} 
-                  className="text-5xl sm:text-6xl font-bold" 
+                  className="text-4xl sm:text-5xl md:text-6xl font-bold" 
                 />
-                <span className="text-5xl sm:text-6xl font-bold">{stat.suffix}</span>
+                <span className="text-4xl sm:text-5xl md:text-6xl font-bold">{stat.suffix}</span>
               </div>
               <p className="text-xs uppercase tracking-wider font-medium opacity-90">
                 {stat.label}
@@ -75,7 +75,7 @@ export function StatsBento() {
           ))}
 
           {/* Skyscrapers Image */}
-          <div className="aspect-[4/3] sm:aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden order-4">
+          <div className="aspect-[4/3] sm:aspect-[4/3] md:aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden order-4">
             <img
               src={skyscrapersImg}
               alt="Modern business district"
@@ -85,7 +85,7 @@ export function StatsBento() {
           </div>
 
           {/* AI Card - Fixed color styling */}
-          <div className="aspect-[4/3] sm:aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden relative group bg-card order-5">
+          <div className="aspect-[4/3] sm:aspect-[4/3] md:aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden relative group bg-card order-5">
             <img
               src={aiPurpleImg}
               alt="AI Technology"
@@ -115,9 +115,9 @@ export function StatsBento() {
               <div className="flex items-baseline gap-1">
                 <Counter 
                   value={100} 
-                  className="text-4xl sm:text-5xl font-bold text-foreground" 
+                  className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground" 
                 />
-                <span className="text-4xl sm:text-5xl font-bold text-foreground">%</span>
+                <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">%</span>
               </div>
               <p className="text-lg sm:text-xl font-bold text-foreground mt-2">
                 Alignment to Compliance

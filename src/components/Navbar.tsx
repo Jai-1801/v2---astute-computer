@@ -79,8 +79,8 @@ export function Navbar() {
       <nav
         className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]"
       >
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
-          <div className="flex items-center justify-between py-6 sm:py-7 lg:py-8">
+        <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24">
+          <div className="flex items-center justify-between py-4 sm:py-5 md:py-6 lg:py-7 xl:py-8">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 sm:gap-3">
               <img

@@ -43,10 +43,14 @@ const LightPillar = ({
   const geometryRef = useRef<THREE.PlaneGeometry | null>(null);
   const mouseRef = useRef(new THREE.Vector2(0, 0));
   const timeRef = useRef(0);
+  const isVisibleRef = useRef(true);
   const [webGLSupported, setWebGLSupported] = useState(true);
 
   // Performance check - disable shader when lagging
   const { isLagging, reducedMotion } = usePerformance();
+
+  // Track whether we should show the fallback
+  const shouldDisable = isLagging || reducedMotion || !webGLSupported;
 
   useEffect(() => {
     const canvas = document.createElement('canvas');
@@ -56,24 +60,20 @@ const LightPillar = ({
     }
   }, []);
 
-  // Render static fallback if lagging or reduced motion preferred
-  if (isLagging || reducedMotion || !webGLSupported) {
-    return (
-      <div className={`light-pillar-container ${className}`}>
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(to top, ${bottomColor}, ${topColor})`,
-            opacity: 0.3,
-            filter: 'blur(40px)'
-          }}
-        />
-      </div>
+  // Pause render loop when not in viewport
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { isVisibleRef.current = entry.isIntersecting; },
+      { threshold: 0.05 }
     );
-  }
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
-    if (!containerRef.current || !webGLSupported) return;
+    // Don't initialize WebGL if disabled or no container
+    if (shouldDisable || !containerRef.current || !webGLSupported) return;
 
     const container = containerRef.current;
     const width = container.clientWidth;
@@ -285,6 +285,12 @@ const LightPillar = ({
     const animate = (currentTime: number) => {
       if (!materialRef.current || !rendererRef.current || !sceneRef.current || !cameraRef.current) return;
 
+      // Skip rendering when not visible (user scrolled past)
+      if (!isVisibleRef.current) {
+        rafRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       const deltaTime = currentTime - lastTime;
 
       if (deltaTime >= frameTime) {
@@ -348,6 +354,7 @@ const LightPillar = ({
       rafRef.current = null;
     };
   }, [
+    shouldDisable,
     topColor,
     bottomColor,
     intensity,
@@ -362,10 +369,18 @@ const LightPillar = ({
     quality
   ]);
 
-  if (!webGLSupported) {
+  // Show fallback when disabled (lagging, reduced motion, no WebGL)
+  if (shouldDisable) {
     return (
-      <div className={`light-pillar-fallback ${className}`} style={{ mixBlendMode: mixBlendMode as React.CSSProperties['mixBlendMode'] }}>
-        WebGL not supported
+      <div className={`light-pillar-container ${className}`}>
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(to top, ${bottomColor}, ${topColor})`,
+            opacity: 0.3,
+            filter: 'blur(40px)'
+          }}
+        />
       </div>
     );
   }

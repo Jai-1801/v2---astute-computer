@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Circular black background -->
+  <circle cx="256" cy="256" r="256" fill="#000000"/>
+  <!-- White "A" letter -->
+  <text x="256" y="350" text-anchor="middle" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="800" font-size="340" fill="white">A</text>
+</svg>

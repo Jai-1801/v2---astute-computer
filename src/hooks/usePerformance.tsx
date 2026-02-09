@@ -49,15 +49,15 @@ export function PerformanceProvider({ children }: { children: React.ReactNode })
                 frameCount = 0;
                 lastTime = now;
 
-                // Track consecutive low FPS frames
-                if (fps < 45) {
+                // Track consecutive low FPS frames (less aggressive threshold)
+                if (fps < 30) {
                     lowFpsCount++;
                 } else {
-                    lowFpsCount = Math.max(0, lowFpsCount - 1);
+                    lowFpsCount = Math.max(0, lowFpsCount - 2); // Recover faster
                 }
 
-                // Mark as lagging if FPS drops below threshold for 3 consecutive checks
-                const isLagging = lowFpsCount >= 3;
+                // Mark as lagging if FPS drops below threshold for 5 consecutive checks (~2.5s of sustained lag)
+                const isLagging = lowFpsCount >= 5;
 
                 setState(s => {
                     if (s.fps !== fps || s.isLagging !== isLagging) {

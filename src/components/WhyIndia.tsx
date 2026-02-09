@@ -38,7 +38,7 @@ export function WhyIndia() {
               </span>
             </div>
             
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 leading-[1.15]">
               Why India?
             </h2>
             
@@ -56,9 +56,9 @@ export function WhyIndia() {
 
           {/* Right Stats Cards */}
           <div className="flex-1 w-full">
-            <div className="flex flex-col sm:flex-row gap-5 lg:gap-6">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 lg:gap-6">
               {/* First tall card */}
-              <div className="relative bg-[#1a1f3c] rounded-2xl p-6 sm:p-7 min-h-[240px] sm:min-h-[280px] flex flex-col justify-center overflow-hidden group w-full sm:w-[200px] lg:w-[220px]">
+              <div className="relative bg-[#1a1f3c] rounded-2xl p-5 sm:p-6 md:p-7 min-h-[200px] sm:min-h-[240px] md:min-h-[280px] flex flex-col justify-center overflow-hidden group w-full sm:w-[180px] md:w-[200px] lg:w-[220px]">
                 {/* Gradient accent on left */}
                 <div className="absolute left-0 top-6 bottom-6 w-1 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full" />
                 
@@ -66,9 +66,9 @@ export function WhyIndia() {
                   <div className="flex items-baseline justify-center sm:justify-start gap-0.5 mb-3">
                     <Counter 
                       value={stats[0].value} 
-                      className="text-4xl sm:text-5xl font-bold text-white" 
+                      className="text-3xl sm:text-4xl md:text-5xl font-bold text-white" 
                     />
-                    <span className="text-4xl sm:text-5xl font-bold text-white">{stats[0].suffix}</span>
+                    <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">{stats[0].suffix}</span>
                   </div>
                   <p className="text-xs font-bold text-white uppercase tracking-wider mb-1">
                     {stats[0].label}
@@ -80,8 +80,8 @@ export function WhyIndia() {
               </div>
 
               {/* Stacked cards column */}
-              <div className="flex flex-col gap-5 lg:gap-6 flex-1">
-                <div className="relative bg-[#1a1f3c] rounded-2xl p-6 sm:p-7 min-h-[160px] sm:min-h-[180px] flex items-center overflow-hidden">
+              <div className="flex flex-col gap-4 sm:gap-5 lg:gap-6 flex-1">
+                <div className="relative bg-[#1a1f3c] rounded-2xl p-5 sm:p-6 md:p-7 min-h-[140px] sm:min-h-[160px] md:min-h-[180px] flex items-center overflow-hidden">
                   {/* Gradient accent on right */}
                   <div className="absolute right-0 top-5 bottom-5 w-1 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full" />
                   
@@ -89,9 +89,9 @@ export function WhyIndia() {
                     <div className="flex items-baseline justify-center sm:justify-start gap-0.5 mb-3">
                       <Counter 
                         value={stats[1].value} 
-                        className="text-4xl sm:text-5xl font-bold text-white" 
+                        className="text-3xl sm:text-4xl md:text-5xl font-bold text-white" 
                       />
-                      <span className="text-4xl sm:text-5xl font-bold text-white">{stats[1].suffix}</span>
+                      <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">{stats[1].suffix}</span>
                     </div>
                     <p className="text-xs font-bold text-white uppercase tracking-wider mb-1">
                       {stats[1].label}
@@ -118,7 +118,7 @@ export function WhyIndia() {
                   </div>
                 </div>
 
-                <div className="relative bg-[#1a1f3c] rounded-2xl p-6 sm:p-7 min-h-[160px] sm:min-h-[180px] flex items-center overflow-hidden">
+                <div className="relative bg-[#1a1f3c] rounded-2xl p-5 sm:p-6 md:p-7 min-h-[140px] sm:min-h-[160px] md:min-h-[180px] flex items-center overflow-hidden">
                   {/* Gradient accent on right */}
                   <div className="absolute right-0 top-5 bottom-5 w-1 bg-gradient-to-b from-blue-600 to-blue-400 rounded-full" />
                   
@@ -126,9 +126,9 @@ export function WhyIndia() {
                     <div className="flex items-baseline justify-center sm:justify-start gap-0.5 mb-3">
                       <Counter 
                         value={stats[2].value} 
-                        className="text-4xl sm:text-5xl font-bold text-white" 
+                        className="text-3xl sm:text-4xl md:text-5xl font-bold text-white" 
                       />
-                      <span className="text-4xl sm:text-5xl font-bold text-white">{stats[2].suffix}</span>
+                      <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">{stats[2].suffix}</span>
                     </div>
                     <p className="text-xs font-bold text-white uppercase tracking-wider mb-1">
                       {stats[2].label}

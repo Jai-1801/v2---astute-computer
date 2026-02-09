@@ -42,9 +42,9 @@ export function Footer() {
   return (
     <footer className="relative border-t border-border/50 bg-background">
       <div className="container-custom px-6 sm:px-8 py-12 sm:py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 md:gap-10 lg:gap-12">
           {/* Brand */}
-          <div className="lg:col-span-2">
+          <div className="col-span-2 sm:col-span-2 md:col-span-3 lg:col-span-2">
             <BlurFade>
               <Link to="/" className="inline-flex items-center gap-3 mb-5 sm:mb-6">
                 <img

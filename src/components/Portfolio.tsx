@@ -91,7 +91,7 @@ function ProjectCard({ project, index, isFromDatabase }: ProjectCardProps) {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative flex-shrink-0 w-[280px] sm:w-[340px] lg:w-[380px] group cursor-pointer"
+      className="relative flex-shrink-0 w-[260px] sm:w-[300px] md:w-[340px] lg:w-[380px] group cursor-pointer"
     >
       <div className="relative overflow-hidden rounded-2xl bg-card border border-border/50 hover:border-primary/30 aspect-[4/5] transition-all duration-150">
         {/* Image - NO grayscale effect */}
@@ -193,7 +193,7 @@ export function Portfolio() {
               </span>
             </BlurFade>
             <BlurFade delay={0.1}>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-[1.15]">
                 Case Studies
               </h2>
             </BlurFade>

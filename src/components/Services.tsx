@@ -155,8 +155,8 @@ export function Services() {
 
   return (
     <section id="services" className="relative overflow-hidden py-20 sm:py-24 md:py-32">
-      <div className="absolute inset-0 grid-pattern opacity-20" />
-      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[150px] -translate-y-1/2" />
+      <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[150px] -translate-y-1/2 pointer-events-none" />
 
       <div ref={ref} className="container-custom relative z-10 px-6 sm:px-8">
         {/* Section Header */}
@@ -168,7 +168,7 @@ export function Services() {
               </span>
             </BlurFade>
             <BlurFade delay={0.1}>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-[1.15]">
                 Our Offerings
               </h2>
             </BlurFade>

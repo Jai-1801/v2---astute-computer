@@ -53,7 +53,7 @@ export function HowWeWork() {
             </div>
           </BlurFade>
           <BlurFade delay={0.1}>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white max-w-2xl">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white max-w-2xl leading-[1.15]">
               Strategic Deployment, Accelerated by AI
             </h2>
           </BlurFade>
@@ -63,7 +63,7 @@ export function HowWeWork() {
         <div className="w-full h-px bg-white/20 mb-12 lg:mb-16" />
 
         {/* Steps Grid with Reflective Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
           {steps.map((step, index) => (
             <BlurFade key={step.number} delay={0.15 + index * 0.08}>
               <ReflectiveCard

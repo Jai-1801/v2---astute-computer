@@ -93,11 +93,11 @@ function SectorCard({
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onNavigate(sector.id)}
         className={`relative group cursor-pointer ${
-          sector.size === 'large' ? 'md:col-span-2' : ''
+          sector.size === 'large' ? 'sm:col-span-2 lg:col-span-2' : ''
         }`}
       >
         <div
-          className="h-full min-h-[280px] sm:min-h-[320px] rounded-2xl overflow-hidden relative"
+          className="h-full min-h-[240px] sm:min-h-[280px] md:min-h-[300px] lg:min-h-[320px] rounded-2xl overflow-hidden relative"
           style={{ 
             transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
             transition: 'transform 0.15s ease-out'
@@ -199,8 +199,8 @@ export function SectorProblems() {
 
   return (
     <section id="sectors" className="relative overflow-hidden py-20 sm:py-24 md:py-32">
-      <div className="absolute inset-0 grid-pattern opacity-10" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[200px]" />
+      <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[200px] pointer-events-none" />
 
       <div ref={ref} className="container-custom relative z-10 px-6 sm:px-8">
         {/* Section Header */}
@@ -211,7 +211,7 @@ export function SectorProblems() {
             </span>
           </BlurFade>
           <BlurFade delay={0.1}>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-5 sm:mb-6 leading-[1.15]">
               Solving Industry
               <br />
               <span className="text-gradient-purple">Challenges</span>
@@ -225,7 +225,7 @@ export function SectorProblems() {
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
           {sectors.map((sector, index) => (
             <SectorCard 
               key={sector.id} 

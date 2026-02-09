@@ -255,6 +255,7 @@ html.lenis, html.lenis body {
       linear-gradient(hsl(var(--border) / 0.3) 1px, transparent 1px),
       linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px);
     background-size: 60px 60px;
+    pointer-events: none;
   }
 
   /* Noise Texture Overlay */
@@ -289,7 +290,7 @@ html.lenis, html.lenis body {
 
   /* Container */
   .container-custom {
-    @apply max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-12;
+    @apply max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12;
   }
 
   /* Royal blue ambient glow background */
